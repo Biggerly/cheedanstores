@@ -500,6 +500,151 @@ body{
 }
 
 
+/* hide bottom nav on desktop */
+@media (min-width: 900px) {
+  .bottom-nav {
+    display: none !important;
+  }
+
+  body{
+    padding-bottom: 0;   /* remove mobile space */
+  }
+}
+.search-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;
+  align-items:flex-start;
+  justify-content:center;
+  z-index:999;
+  padding-top:80px;
+}
+
+.search-modal.show{display:flex;}
+
+.search-box{
+  width:92%;
+  max-width:520px;
+  background:#fff;
+  border-radius:14px;
+  padding:14px;
+}
+
+.search-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+#modalSearchInput{
+  width:100%;
+  padding:12px 14px;
+  border-radius:10px;
+  border:1px solid #e5e7eb;
+  font-size:14px;
+  outline:none;
+}
+
+.recent-wrap{
+  margin-top:14px;
+}
+
+.recent-wrap small{
+  color:#64748b;
+  display:block;
+  margin-bottom:8px;
+}
+
+.recent-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.recent-list span{
+  background:#f1f5f9;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  cursor:pointer;
+}
+
+.modal-results{
+  margin-top:14px;
+  max-height:260px;
+  overflow-y:auto;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.modal-results .mini-card{
+  background:#f1f5f9;
+  border-radius:10px;
+  padding:8px;
+  font-size:13px;
+}
+
+.modal-results img{
+  width:100%;
+  height:80px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+@media (min-width:900px){
+  .products-grid{
+    grid-template-columns:repeat(4,1fr);
+  }
+}
+
+#backToTop{
+  position:fixed;
+  right:16px;
+  bottom:90px; /* above bottom nav */
+  width:44px;
+  height:44px;
+  border:none;
+  border-radius:50%;
+  background:#16a34a;
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+  display:none;
+  z-index:60;
+  box-shadow:0 8px 18px rgba(0,0,0,.15);
+}
+#backToTop.show{
+  display:block;
+}
+
+.breadcrumb-nav{
+  font-size:13px;
+  margin-bottom:10px;
+  color:#475569;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.breadcrumb-nav a{
+  text-decoration:none;
+  color:#16a34a;
+  font-weight:500;
+}
+
+.breadcrumb-nav .bc-current{
+  color:#0f172a;
+  font-weight:600;
+}
+
+.cat-active{
+    background:#0f172a !important;
+    color:#fff !important;
+    border-color:#0f172a !important;
+  }
 </style>
 
 </head>
@@ -514,7 +659,7 @@ body{
 
 <header class="header">
   <div class="header-inner">
-    <button class="hamburger" id="openMenu"><i class='bx bx-menu'></i></button>
+    <button class="hamburger" id="openMenu" aria-label="Open menu"><i class='bx bx-menu'></i></button>
     <div class="logo">Cheedan Stores</div>
     <div class="header-actions" style="display:flex;align-items:center;gap:12px;">
   <a href="#" class="btn-login" style="font-size:14px;color:#0f172a;text-decoration:none;">Log In</a>
@@ -531,7 +676,7 @@ body{
 </header>
 
 <div class="search-bar" style="max-width:1200px;margin:12px auto;padding:0 16px;">
-  <input type="text" placeholder="Search products..." 
+  <input id="searchInput" readonly type="text" placeholder="Search products..."
     style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #e5e7eb;font-size:14px;">
 </div>
 
@@ -542,7 +687,7 @@ body{
 <div class="mobile-menu" id="mobileMenu">
   <div class="mobile-head">
     <strong>Categories</strong>
-    <button id="closeMenu">✕</button>
+    <button id="closeMenu" aria-label="Close menu">✕</button>
   </div>
   <div id="mobileCategoriesContainer" class="mobile-cats"></div>
 </div>
@@ -593,7 +738,10 @@ body{
     <div style="font-size:13px;color:#64748b;margin-bottom:12px;">
   Best sellers
 </div>
-    <div id="productsContainer" class="products-grid"></div>
+    <div id="popularContainer" class="products-grid"></div>
+
+<h3 style="margin-top:22px;margin-bottom:10px;">Best sellers</h3>
+<div id="bestContainer" class="products-grid"></div>
   </section>
 
   <section class="about-mini">
@@ -625,7 +773,7 @@ body{
 
 <nav class="bottom-nav">
   <a href="#" class="active"><i class='bx bx-home'></i>Home</a>
-  <a href="#"><i class='bx bx-grid-alt'></i>Shop</a>
+ <a href="shop.html"><i class='bx bx-grid-alt'></i>Shop</a>
   <a href="#" id="openCats"><i class='bx bx-category'></i>Categories</a>
   <a href="#"><i class='bx bx-cart'></i>Cart</a>
   <a href="#"><i class='bx bx-user'></i>Account</a>
@@ -677,6 +825,42 @@ body{
   </div>
 </footer>
 
+<!-- search modal -->
+<div id="searchModal" class="search-modal">
+  <div class="search-box">
+    <div class="search-head">
+      <strong>Search</strong>
+      <button id="closeSearch" aria-label="Close search">✕</button>
+    </div>
+
+    <input id="modalSearchInput" type="text" placeholder="Search products...">
+
+    <div class="recent-wrap">
+      <small>Recent searches</small>
+      <div id="recentSearches" class="recent-list"></div>
+    </div>
+    <div id="modalResults" class="modal-results"></div>
+  </div>
+</div>
+
+<div id="productModal" class="search-modal">
+  <div class="search-box">
+    <div class="search-head">
+      <strong id="pmTitle"></strong>
+      <button id="closeProduct" aria-label="Close product preview">✕</button>
+    </div>
+    <img id="pmImage" style="width:100%;height:180px;object-fit:cover;border-radius:10px">
+    <p id="pmPrice" style="margin-top:10px;font-weight:600;color:#16a34a"></p>
+  </div>
+</div>
+
+
+
+<button id="backToTop" aria-label="Back to top">↑</button>
+
+
+
+
 <script>
 
   const navLinks = document.querySelectorAll('.bottom-nav a');
@@ -693,12 +877,12 @@ const categories = [
   {id:7,name:"Sports"},{id:8,name:"Books"}
 ];
 const products = [
-  {id:1,name:"Electric Kettle",price:12000,image:"https://images.unsplash.com/photo-1586201375761-83865001e31c"},
-  {id:2,name:"Bluetooth Speaker",price:18000,image:"https://images.unsplash.com/photo-1585386959984-a41552231693"},
-  {id:3,name:"Rice Cooker",price:26000,image:"https://images.unsplash.com/photo-1622484212165-8a9d0a5f3f9c"},
-  {id:4,name:"Sneakers",price:15000,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff"},
-  {id:5,name:"Hand Blender",price:14000,image:"https://images.unsplash.com/photo-1585515320310-259814833e62"},
-  {id:6,name:"Skin Care Set",price:9000,image:"https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd"}
+  {id:1,name:"Electric Kettle",category:"Home Appliances",price:12000,image:"https://images.unsplash.com/photo-1586201375761-83865001e31c"},
+  {id:2,name:"Bluetooth Speaker",category:"Electronics",price:18000,image:"https://images.unsplash.com/photo-1585386959984-a41552231693"},
+  {id:3,name:"Rice Cooker",category:"Home Appliances",price:26000,image:"https://images.unsplash.com/photo-1622484212165-8a9d0a5f3f9c"},
+  {id:4,name:"Sneakers",category:"Fashion",price:15000,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff"},
+  {id:5,name:"Hand Blender",category:"Home Appliances",price:14000,image:"https://images.unsplash.com/photo-1585515320310-259814833e62"},
+  {id:6,name:"Skin Care Set",category:"Beauty & Care",price:9000,image:"https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd"}
 ];
 
 function renderCategories(){
@@ -706,15 +890,31 @@ function renderCategories(){
   const mobile  = document.getElementById("mobileCategoriesContainer");
   desktop.innerHTML=""; mobile.innerHTML="";
   categories.forEach(cat=>{
-    const a1=document.createElement("a"); a1.href="#"; a1.textContent=cat.name;
+    const a1=document.createElement("a");
+a1.href="#";
+a1.textContent=cat.name;
+
+a1.onclick = (e)=>{
+  e.preventDefault();
+  window.location.href =
+    window.location.pathname + "?category=" + encodeURIComponent(cat.name);
+};
     const a2=a1.cloneNode(true);
+    a2.onclick = (e)=>{
+  e.preventDefault();
+  closeCats();
+  window.location.href =
+    window.location.pathname + "?category=" + encodeURIComponent(cat.name);
+};
     desktop.appendChild(a1); mobile.appendChild(a2);
   });
 }
 
-function renderProducts(){
 
-  const container=document.getElementById("productsContainer");
+
+function renderProducts(list = products, target="productsContainer"){
+
+  const container=document.getElementById(target);
 
   container.innerHTML="";
 
@@ -730,25 +930,47 @@ function renderProducts(){
     `;
   }
 
-  setTimeout(()=>{
+setTimeout(()=>{
 
-    container.innerHTML="";
+  container.innerHTML = "";
 
-    products.forEach(p=>{
-      const a=document.createElement("a");
-      a.className="product-card";
-      a.href="#";
-      a.innerHTML=`
-        <img src="${p.image}" alt="">
-        <div class="product-body">
-          <h4>${p.name}</h4>
-          <span>₦${p.price.toLocaleString()}</span>
-        </div>
-      `;
-      container.appendChild(a);
-    });
+  if(!list.length){
+    container.innerHTML = `
+      <div style="
+        grid-column:1/-1;
+        background:#fff;
+        border:1px dashed #e5e7eb;
+        border-radius:14px;
+        padding:28px 16px;
+        text-align:center;
+        color:#64748b;
+        font-size:14px;
+      ">
+        <strong style="display:block;color:#022c22;margin-bottom:6px;">
+          No products found
+        </strong>
+        Try another search or browse categories.
+      </div>
+    `;
+    return;
+  }
 
-  },700);
+  list.forEach(p=>{
+    const a=document.createElement("a");
+    a.className="product-card";
+    a.href="#";
+    a.innerHTML=`
+      <img src="${p.image}" alt="">
+      <div class="product-body">
+        <h4>${p.name}</h4>
+        <span>₦${p.price.toLocaleString()}</span>
+      </div>
+    `;
+    a.href = "product.html?id=" + p.id;
+    container.appendChild(a);
+  });
+
+},700);
 }
 
 const categoryImages = {
@@ -768,6 +990,10 @@ function renderCarousel(){
   categories.forEach(cat=>{
     const div=document.createElement("div");
     div.className="carousel-item";
+    div.onclick = ()=>{
+  window.location.href =
+    window.location.pathname + "?category=" + encodeURIComponent(cat.name);
+};
     div.innerHTML=`<img src="${categoryImages[cat.name]}" alt="${cat.name}"><div>${cat.name}</div>`;
     container.appendChild(div);
   });
@@ -817,16 +1043,258 @@ setInterval(()=>{
   showSlide(heroIndex);
 }, 4000); // 4 seconds per slide
 
+const params = new URLSearchParams(window.location.search);
+const activeCategory = params.get("category");
+
+if(activeCategory){
+  
+
+  document.querySelector(".hero-sidebar").style.display = "none";
+  document.querySelector(".categories-carousel").style.display = "none";
+  document.querySelector(".trust-strip").style.display = "none";
+
+  document.querySelector(".products h3").textContent =
+    activeCategory + " products";
+
+    // breadcrumb
+if(!document.querySelector(".breadcrumb-nav")){
+  const nav = document.createElement("div");
+  nav.className = "breadcrumb-nav";
+  nav.innerHTML = `
+    <a href="${window.location.pathname}">Home</a>
+    <span class="bc-sep">›</span>
+    <span class="bc-current">${activeCategory}</span>
+  `;
+
+  const title = document.querySelector(".products h3");
+  title.parentNode.insertBefore(nav, title);
+}
+
+  document.getElementById("bestContainer").style.display = "none";
+
+  const filtered = products.filter(
+    p => p.category === activeCategory
+  );
+
+  renderProducts(filtered, "popularContainer");
+
+}else{
+
+  renderTwoSections();
+
+}
+
 /* INIT */
 
 renderCategories();
-renderProducts();
+
 renderCarousel();
+
+const searchInput = document.getElementById("searchInput");
+const searchModal = document.getElementById("searchModal");
+const modalInput = document.getElementById("modalSearchInput");
+const modalResults = document.getElementById("modalResults");
+const closeSearch = document.getElementById("closeSearch");
+const recentWrap = document.getElementById("recentSearches");
+
+let recentSearches = JSON.parse(localStorage.getItem("recentSearches") || "[]");
+
+const productModal = document.getElementById("productModal");
+const pmTitle = document.getElementById("pmTitle");
+const pmImage = document.getElementById("pmImage");
+const pmPrice = document.getElementById("pmPrice");
+
+document.getElementById("closeProduct").onclick = ()=>{
+  productModal.classList.remove("show");
+};
+
+document.addEventListener("keydown",(e)=>{
+  if(e.key === "Escape"){
+
+    if(searchModal.classList.contains("show")){
+      closeSearchModal();
+    }
+
+    if(productModal.classList.contains("show")){
+      productModal.classList.remove("show");
+    }
+
+  }
+});
+
+function openProduct(p){
+  pmTitle.textContent = p.name;
+  pmImage.src = p.image;
+  pmPrice.textContent = "₦" + p.price.toLocaleString();
+  productModal.classList.add("show");
+}
+
+function openSearchModal(){
+
+  lastFocusedElement = document.activeElement;
+
+  searchModal.classList.add("show");
+  modalInput.focus();
+  renderRecent();
+
+  trapFocus(searchModal);
+}
+
+let lastFocusedElement = null;
+
+function trapFocus(container){
+
+  const focusable = container.querySelectorAll(
+    'button, input, [href], [tabindex]:not([tabindex="-1"])'
+  );
+
+  if(!focusable.length) return;
+
+  const first = focusable[0];
+  const last  = focusable[focusable.length - 1];
+
+  function handle(e){
+    if(e.key !== "Tab") return;
+
+    if(e.shiftKey && document.activeElement === first){
+      e.preventDefault();
+      last.focus();
+    }
+    else if(!e.shiftKey && document.activeElement === last){
+      e.preventDefault();
+      first.focus();
+    }
+  }
+
+  container._focusHandler = handle;
+  container.addEventListener("keydown", handle);
+}
+
+function closeSearchModal(){
+
+  searchModal.classList.remove("show");
+
+  if(searchModal._focusHandler){
+    searchModal.removeEventListener("keydown", searchModal._focusHandler);
+  }
+
+  if(lastFocusedElement){
+    lastFocusedElement.focus();
+  }
+}
+
+searchInput.addEventListener("click", openSearchModal);
+closeSearch.addEventListener("click", closeSearchModal);
+
+searchModal.addEventListener("click",(e)=>{
+  if(e.target === searchModal) closeSearchModal();
+});
+
+modalInput.addEventListener("input", ()=>{
+
+  const q = modalSearchInput.value.toLowerCase().trim();
+  modalResults.innerHTML = "";
+
+  if(!q) return;
+
+  const filtered = products.filter(p =>
+  p.name.toLowerCase().includes(q)
+);
+
+if(!filtered.length){
+  modalResults.innerHTML = `
+    <div style="grid-column:1/-1;text-align:center;color:#64748b;font-size:13px;">
+      No results found
+    </div>
+  `;
+  return;
+}
+
+  filtered.slice(0,6).forEach(p=>{
+    const div = document.createElement("div");
+    div.className = "mini-card";
+    div.innerHTML = `
+      <img src="${p.image}">
+      <strong>${p.name}</strong><br>
+₦${p.price.toLocaleString()}
+    `;
+    modalResults.appendChild(div);
+  });
+
+});
+
+function renderTwoSections(){
+
+  const popular = products.slice(0,4);
+  const best = products.slice(2,6);
+
+  renderProducts(popular, "popularContainer");
+  renderProducts(best, "bestContainer");
+}
+
+function renderRecent(){
+  recentWrap.innerHTML = "";
+  recentSearches.forEach(q=>{
+    const s = document.createElement("span");
+    s.textContent = q;
+    s.onclick = ()=>{
+      modalInput.value = q;
+      runSearch(q);
+    };
+    recentWrap.appendChild(s);
+  });
+}
+
+function saveRecent(q){
+  if(!q) return;
+  recentSearches = recentSearches.filter(x=>x !== q);
+  recentSearches.unshift(q);
+  recentSearches = recentSearches.slice(0,6);
+  localStorage.setItem("recentSearches", JSON.stringify(recentSearches));
+  renderRecent();
+}
+
+function runSearch(q){
+  const filtered = products.filter(p =>
+    p.name.toLowerCase().includes(q.toLowerCase())
+  );
+  renderProducts(filtered);
+}
+
+modalInput.addEventListener("input",()=>{
+  const q = modalInput.value.trim();
+  runSearch(q);
+});
+
+modalInput.addEventListener("keydown",(e)=>{
+  if(e.key === "Enter"){
+    const q = modalInput.value.trim();
+    saveRecent(q);
+    closeSearchModal();
+  }
+});
+
+
+const backToTop = document.getElementById("backToTop");
+
+window.addEventListener("scroll", () => {
+  if(window.scrollY > 300){
+    backToTop.classList.add("show");
+  }else{
+    backToTop.classList.remove("show");
+  }
+});
+
+backToTop.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
 
 setTimeout(()=>{
   document.getElementById("pageLoader").style.display="none";
 },300);
 </script>
+
+
 
 </body>
 </html>
