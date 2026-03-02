@@ -228,6 +228,7 @@ const pTitle = document.getElementById("pTitle");
 const pPrice = document.getElementById("pPrice");
 const pImage = document.getElementById("pImage");
 const pCat   = document.getElementById("pCategory");
+const addBtn = document.querySelector(".add-btn");
 const bcCat  = document.getElementById("bcCat");
 
 document.getElementById("goBack").onclick = () => history.back();
@@ -265,6 +266,11 @@ async function loadProduct(pid){
 
     card.hidden=false;
 
+    addBtn.dataset.id = pid;
+addBtn.dataset.name = p.title || p.name || "";
+addBtn.dataset.price = p.price || 0;
+addBtn.dataset.image = p.image || "";
+
   }catch(err){
     console.error(err);
     loader.style.display="none";
@@ -274,7 +280,7 @@ async function loadProduct(pid){
 }
 
 
-const addBtn = document.querySelector(".add-btn");
+
 
 addBtn.addEventListener("click", () => {
 
