@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile – Cheedan Stores</title>
+
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:#f8fafc;
+  padding-bottom:50px;
+}
+
+.header{
+  background:#fff;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.header-inner{
+  max-width:900px;
+  margin:auto;
+  padding:14px 16px;
+}
+
+.header a{
+  text-decoration:none;
+  color:#16a34a;
+  font-weight:600;
+  margin-right:6px;
+}
+
+.main{
+  max-width:720px;
+  margin:auto;
+  padding:18px 14px;
+}
+
+.breadcrumb{
+  font-size:13px;
+  margin-bottom:16px;
+  color:#475569;
+}
+
+.breadcrumb a{
+  color:#16a34a;
+  text-decoration:none;
+  margin-right:4px;
+}
+
+.profile-card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:18px;
+}
+
+.profile-card h2{
+  margin-bottom:14px;
+  color:#022c22;
+}
+
+.form-group{
+  margin-bottom:14px;
+}
+
+.form-group label{
+  display:block;
+  font-size:13px;
+  margin-bottom:4px;
+  color:#475569;
+}
+
+.form-group input, .form-group textarea{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #cbd5e1;
+  font-size:14px;
+}
+
+button{
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:#16a34a;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  width:100%;
+}
+
+.hidden{display:none;}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> &raquo;
+      <a href="account.html">My Account</a> &raquo;
+      <span>Profile</span>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+
+  <div class="profile-card hidden" id="profileCard">
+
+    <h2>My Profile</h2>
+
+    <div class="form-group">
+      <label for="nameInput">Full Name</label>
+      <input type="text" id="nameInput">
+    </div>
+
+    <div class="form-group">
+      <label for="emailInput">Email (cannot change)</label>
+      <input type="email" id="emailInput" disabled>
+    </div>
+
+    <div class="form-group">
+      <label for="phoneInput">Phone</label>
+      <input type="text" id="phoneInput">
+    </div>
+
+    <div class="form-group">
+      <label for="addressInput">Address</label>
+      <textarea id="addressInput" rows="3"></textarea>
+    </div>
+
+    <button id="saveBtn">Save Changes</button>
+
+  </div>
+
+  <div class="empty hidden" id="notSignedIn">
+    You are not signed in.<br><br>
+    <a href="login.html">Log in</a> to update your profile.
+  </div>
+
+</main>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  updateProfile
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBvoWHr8Ctnzogdu756BpmSjWtmA9l-rlE",
+  authDomain: "cheedan.firebaseapp.com",
+  projectId: "cheedan",
+  storageBucket: "cheedan.firebasestorage.app",
+  messagingSenderId: "445764602981",
+  appId: "1:445764602981:web:5e4b5bfbb507882fd28a8c",
+  measurementId: "G-R2NCH9TRTP"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const profileCard = document.getElementById("profileCard");
+const notSignedIn = document.getElementById("notSignedIn");
+
+const nameInput = document.getElementById("nameInput");
+const emailInput = document.getElementById("emailInput");
+const phoneInput = document.getElementById("phoneInput");
+const addressInput = document.getElementById("addressInput");
+const saveBtn = document.getElementById("saveBtn");
+
+onAuthStateChanged(auth, async (user) => {
+  if(user){
+    profileCard.classList.remove("hidden");
+    notSignedIn.classList.add("hidden");
+
+    emailInput.value = user.email || "";
+    nameInput.value = user.displayName || "";
+
+    // Fetch extra profile data from Firestore
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+
+    if(docSnap.exists()){
+      const data = docSnap.data();
+      phoneInput.value = data.phone || "";
+      addressInput.value = data.address || "";
+    }
+
+    saveBtn.onclick = async () => {
+      // Update Firebase Auth
+      await updateProfile(user, { displayName: nameInput.value });
+
+      // Update Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        phone: phoneInput.value,
+        address: addressInput.value
+      }, { merge:true });
+
+      alert("Profile updated successfully!");
+    }
+
+  }else{
+    profileCard.classList.add("hidden");
+    notSignedIn.classList.remove("hidden");
+  }
+});
+</script>
+
+</body>
+</html>
