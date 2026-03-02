@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Account – Cheedan Stores</title>
+
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:#f8fafc;
+  padding-bottom:72px;
+}
+
+.header{
+  background:#fff;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.header-inner{
+  max-width:900px;
+  margin:auto;
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.header-inner a{
+  text-decoration:none;
+  color:#16a34a;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+}
+
+.breadcrumb{
+  max-width:900px;
+  margin:10px auto 0;
+  padding:0 16px;
+  font-size:13px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:#64748b;
+}
+
+.breadcrumb a{
+  text-decoration:none;
+  color:#16a34a;
+  font-weight:500;
+}
+
+.breadcrumb i{
+  font-size:14px;
+  color:#94a3b8;
+}
+
+.breadcrumb span{
+  color:#0f172a;
+  font-weight:600;
+}
+
+/* Account card */
+.main{
+  max-width:720px;
+  margin:auto;
+  padding:18px 14px;
+}
+
+.account-card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:18px;
+}
+
+.user-box{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.user-avatar{
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  background:#dcfce7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  color:#16a34a;
+}
+
+.user-name{
+  font-weight:700;
+  color:#022c22;
+}
+
+.user-email{
+  font-size:13px;
+  color:#64748b;
+}
+
+.menu-list{
+  margin-top:10px;
+  display:grid;
+  gap:10px;
+}
+
+.menu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 14px;
+  border-radius:12px;
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+  cursor:pointer;
+  font-size:14px;
+  color:#0f172a;
+}
+
+.menu-item i{
+  font-size:20px;
+  color:#16a34a;
+}
+
+.menu-item.danger i{
+  color:#dc2626;
+}
+
+.auth-box{
+  display:grid;
+  gap:12px;
+}
+
+.auth-box button{
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.login-btn{
+  background:#16a34a;
+  color:#fff;
+}
+
+.signup-btn{
+  background:#e5e7eb;
+}
+
+.hidden{display:none;}
+
+/* Orders section */
+.orders-section{
+  margin-top:24px;
+}
+
+.order-card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:14px;
+}
+
+.order-head{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  color:#475569;
+  margin-bottom:10px;
+}
+
+.order-items{
+  display:grid;
+  gap:10px;
+}
+
+.item{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  font-size:14px;
+}
+
+.item img{
+  width:44px;
+  height:44px;
+  border-radius:8px;
+  object-fit:cover;
+}
+
+.total{
+  margin-top:10px;
+  font-size:14px;
+  font-weight:700;
+  color:#16a34a;
+}
+
+.address{
+  margin-top:8px;
+  font-size:13px;
+  color:#475569;
+}
+
+.empty{
+  text-align:center;
+  padding:60px 10px;
+  color:#64748b;
+}
+
+.empty a{
+  color:#16a34a;
+  text-decoration:none;
+  font-weight:600;
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html"><i class='bx bx-arrow-back'></i></a>
+    <strong>My Account</strong>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="index.html">Home</a>
+  <i class='bx bx-chevron-right'></i>
+  <span>Account</span>
+</nav>
+
+<main class="main">
+
+  <!-- Account card -->
+  <div class="account-card">
+
+    <!-- when signed in -->
+    <div id="signedInBox" class="hidden">
+
+      <div class="user-box">
+        <div class="user-avatar">
+          <i class='bx bx-user'></i>
+        </div>
+        <div>
+          <div id="userName" class="user-name"></div>
+          <div id="userEmail" class="user-email"></div>
+        </div>
+      </div>
+
+      <div class="menu-list">
+
+        <div class="menu-item" id="goOrders" tabindex="0" aria-label="My orders">
+          <span><i class='bx bx-receipt'></i> My Orders</span>
+          <i class='bx bx-chevron-right'></i>
+        </div>
+
+        <div class="menu-item" id="goProfile" tabindex="0" aria-label="Profile">
+          <span><i class='bx bx-id-card'></i> Profile</span>
+          <i class='bx bx-chevron-right'></i>
+        </div>
+
+        <div class="menu-item" id="goSupport" tabindex="0" aria-label="Customer support">
+          <span><i class='bx bx-support'></i> Customer support</span>
+          <i class='bx bx-chevron-right'></i>
+        </div>
+
+        <div class="menu-item danger" id="logoutBtn" tabindex="0" aria-label="Logout">
+          <span><i class='bx bx-log-out'></i> Logout</span>
+          <i class='bx bx-chevron-right'></i>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- when NOT signed in -->
+    <div id="signedOutBox" class="auth-box hidden">
+      <p style="font-size:14px;color:#475569">
+        Sign in to view your orders and manage your account.
+      </p>
+      <button class="login-btn" id="loginBtn" aria-label="Login">Log in</button>
+      <button class="signup-btn" id="signupBtn" aria-label="Sign up">Create account</button>
+    </div>
+
+  </div>
+
+  <!-- Orders section -->
+  <div class="orders-section hidden" id="ordersSection">
+    <h2>My Orders</h2>
+    <div id="ordersList"></div>
+    <div id="emptyState" class="empty" hidden>
+      You have no orders yet.<br><br>
+      <a href="index.html">Start shopping</a>
+    </div>
+  </div>
+
+</main>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBvoWHr8Ctnzogdu756BpmSjWtmA9l-rlE",
+  authDomain: "cheedan.firebaseapp.com",
+  projectId: "cheedan",
+  storageBucket: "cheedan.firebasestorage.app",
+  messagingSenderId: "445764602981",
+  appId: "1:445764602981:web:5e4b5bfbb507882fd28a8c",
+  measurementId: "G-R2NCH9TRTP"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const signedInBox  = document.getElementById("signedInBox");
+const signedOutBox = document.getElementById("signedOutBox");
+
+const userName  = document.getElementById("userName");
+const userEmail = document.getElementById("userEmail");
+
+const ordersSection = document.getElementById("ordersSection");
+const ordersList = document.getElementById("ordersList");
+const emptyState = document.getElementById("emptyState");
+
+onAuthStateChanged(auth, async user => {
+  if(user){
+    signedOutBox.classList.add("hidden");
+    signedInBox.classList.remove("hidden");
+
+    userName.textContent = user.displayName || "Cheedan customer";
+    userEmail.textContent = user.email || "";
+
+    // Show orders section
+    ordersSection.classList.remove("hidden");
+
+    // Fetch orders
+    const q = query(
+      collection(db, "orders"),
+      where("userId", "==", user.uid),
+      orderBy("createdAt","desc")
+    );
+    const snapshot = await getDocs(q);
+    const orders = snapshot.docs.map(doc => doc.data());
+    renderOrders(orders);
+
+  }else{
+    signedInBox.classList.add("hidden");
+    signedOutBox.classList.remove("hidden");
+    ordersSection.classList.add("hidden");
+  }
+});
+
+document.getElementById("loginBtn")?.addEventListener("click",()=>{ window.location.href = "login.html"; });
+document.getElementById("signupBtn")?.addEventListener("click",()=>{ window.location.href = "signup.html"; });
+document.getElementById("goOrders")?.addEventListener("click",()=>{ ordersSection.scrollIntoView({behavior:"smooth"}); });
+document.getElementById("goProfile")?.addEventListener("click",()=>{ window.location.href = "profile.html"; });
+document.getElementById("goSupport")?.addEventListener("click",()=>{ window.location.href = "support.html"; });
+document.getElementById("logoutBtn")?.addEventListener("click", async ()=>{
+  await signOut(auth);
+  location.reload();
+});
+
+// Render orders
+function renderOrders(orders){
+  ordersList.innerHTML = "";
+
+  // Ensure orders is an array
+  if(!orders || !orders.length){
+    emptyState.hidden = false;
+    return;
+  }
+
+  emptyState.hidden = true;
+
+  orders.forEach(order => {
+    const card = document.createElement("div");
+    card.className = "order-card";
+
+    let itemsHTML = "";
+    let total = 0;
+
+    // Check if order.items exists and is array
+    if(order.items && order.items.length){
+      order.items.forEach(i => {
+        total += i.price * i.qty;
+        itemsHTML += `
+          <div class="item">
+            <img src="${i.image}">
+            <div>
+              ${i.name}<br>
+              <small>₦${i.price.toLocaleString()} × ${i.qty}</small>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    const date = order.createdAt?.toDate ? order.createdAt.toDate() : new Date(order.createdAt || Date.now());
+
+    card.innerHTML = `
+      <div class="order-head">
+        <span>Order</span>
+        <span>${date.toLocaleDateString()} ${date.toLocaleTimeString()}</span>
+      </div>
+
+      <div class="order-items">${itemsHTML || "<small>No items</small>"}</div>
+
+      <div class="total">Total: ₦${total.toLocaleString()}</div>
+
+      <div class="address">
+        <strong>Delivery</strong><br>
+        ${order.customer?.name || ""} – ${order.customer?.phone || ""}<br>
+        ${order.customer?.area || ""} ${order.customer?.city || ""}<br>
+        ${order.customer?.address || ""}
+      </div>
+    `;
+
+    ordersList.appendChild(card);
+  });
+}
+</script>
+
+</body>
+</html>
