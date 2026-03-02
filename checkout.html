@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout – Cheedan Stores</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:#f8fafc;
+  padding:16px;
+}
+
+.page{
+  max-width:900px;
+  margin:auto;
+}
+
+h2{
+  margin-bottom:14px;
+  color:#022c22;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:16px;
+}
+
+.row{
+  display:grid;
+  gap:12px;
+}
+
+@media(min-width:800px){
+  .row{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+label{
+  font-size:13px;
+  color:#475569;
+}
+
+input, textarea{
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid #e5e7eb;
+  outline:none;
+  font-size:14px;
+}
+
+textarea{resize:none;height:90px}
+
+.order-item{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  font-size:14px;
+}
+
+.order-item img{
+  width:44px;
+  height:44px;
+  border-radius:8px;
+  object-fit:cover;
+}
+
+.summary-line{
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
+  margin-top:8px;
+}
+
+.total{
+  font-weight:700;
+  color:#16a34a;
+}
+
+.place-btn{
+  width:100%;
+  border:none;
+  padding:14px;
+  border-radius:12px;
+  background:#16a34a;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  margin-top:12px;
+}
+
+.empty{
+  text-align:center;
+  padding:40px 10px;
+  color:#64748b;
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <h2>Checkout</h2>
+
+  <!-- shipping -->
+  <div class="card">
+    <h3 style="margin-bottom:10px">Delivery details</h3>
+
+    <div class="row">
+      <div>
+        <label>Full name</label>
+        <input id="name">
+      </div>
+
+      <div>
+        <label>Phone number</label>
+        <input id="phone">
+      </div>
+
+      <div>
+        <label>City</label>
+        <input id="city" placeholder="Anambra">
+      </div>
+
+      <div>
+        <label>Area / Town</label>
+        <input id="area">
+      </div>
+    </div>
+
+    <div style="margin-top:10px">
+      <label>Delivery address</label>
+      <textarea id="address"></textarea>
+    </div>
+  </div>
+
+  <!-- order -->
+  <div class="card">
+    <h3 style="margin-bottom:10px">Your order</h3>
+    <div id="orderList"></div>
+
+    <div class="summary-line">
+  <span>Subtotal</span>
+  <span id="subTotal">₦0</span>
+</div>
+
+<div class="summary-line">
+  <span>Delivery</span>
+  <span id="deliveryFee">₦0</span>
+</div>
+
+<div class="summary-line">
+  <strong>Total</strong>
+  <strong id="orderTotal" class="total">₦0</strong>
+</div>
+
+    <button class="place-btn" id="placeOrder">
+      Place order
+    </button>
+  </div>
+
+  <div id="emptyState" class="empty" hidden>
+    Your cart is empty.<br>
+    <a href="cart.html">Go back to cart</a>
+  </div>
+
+</div>
+
+
+<script>
+function getCart(){
+  return JSON.parse(localStorage.getItem("cart")) || [];
+}
+
+const fields = ["name","phone","city","area","address"];
+
+function loadDelivery(){
+  const data = JSON.parse(localStorage.getItem("deliveryInfo") || "{}");
+  fields.forEach(id=>{
+    if(data[id]) document.getElementById(id).value = data[id];
+  });
+}
+
+fields.forEach(id=>{
+  const el = document.getElementById(id);
+  el.addEventListener("input", ()=>{
+    const data = JSON.parse(localStorage.getItem("deliveryInfo") || "{}");
+    data[id] = el.value;
+    localStorage.setItem("deliveryInfo", JSON.stringify(data));
+  });
+});
+
+function renderCheckout(){
+
+  const list = document.getElementById("orderList");
+  const totalEl = document.getElementById("orderTotal");
+  const empty = document.getElementById("emptyState");
+
+  const cart = getCart();
+
+  if(!cart.length){
+    empty.hidden = false;
+    document.querySelectorAll(".card").forEach(c=>c.style.display="none");
+    return;
+  }
+
+  let subTotal = 0;
+  list.innerHTML = "";
+
+  cart.forEach(item=>{
+
+    subTotal += item.price * item.qty;
+
+    const div = document.createElement("div");
+    div.className = "order-item";
+    div.innerHTML = `
+      <img src="${item.image}">
+      <div>
+        ${item.name}<br>
+        <small>₦${item.price.toLocaleString()} × ${item.qty}</small>
+      </div>
+    `;
+
+    list.appendChild(div);
+  });
+
+  const city = (document.getElementById("city").value || "").toLowerCase();
+
+let delivery = 0;
+
+if(city.includes("anambra") && subTotal >= 15000){
+  delivery = 0;
+}else{
+  delivery = 1500;
+}
+
+document.getElementById("subTotal").textContent =
+  "₦" + subTotal.toLocaleString();
+
+document.getElementById("deliveryFee").textContent =
+  "₦" + delivery.toLocaleString();
+
+totalEl.textContent =
+  "₦" + (subTotal + delivery).toLocaleString();
+}
+
+document.getElementById("placeOrder").addEventListener("click", ()=>{
+
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const city = document.getElementById("city").value.trim();
+  const area = document.getElementById("area").value.trim();
+  const address = document.getElementById("address").value.trim();
+
+  if(!name || !phone || !address){
+    alert("Please fill your delivery details");
+    return;
+  }
+
+  const order = {
+    customer:{ name, phone, city, area, address },
+    items: getCart(),
+    createdAt: new Date().toISOString()
+  };
+
+  const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+orders.unshift(order);
+localStorage.setItem("orders", JSON.stringify(orders));
+
+localStorage.removeItem("cart");
+
+alert("Order placed successfully!");
+
+  location.href = "index.html";
+});
+
+renderCheckout();
+loadDelivery();
+</script>
+
+</body>
+</html>
