@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cheedan Stores</title>
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- Firebase App -->
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{
@@ -645,6 +647,12 @@ body{
     color:#fff !important;
     border-color:#0f172a !important;
   }
+
+  body{
+  background:
+    linear-gradient(0deg, rgba(0,0,0,0.015), rgba(0,0,0,0.015)),
+    #faf9f6;
+}
 </style>
 
 </head>
@@ -662,8 +670,8 @@ body{
     <button class="hamburger" id="openMenu" aria-label="Open menu"><i class='bx bx-menu'></i></button>
     <div class="logo">Cheedan Stores</div>
     <div class="header-actions" style="display:flex;align-items:center;gap:12px;">
-  <a href="#" class="btn-login" style="font-size:14px;color:#0f172a;text-decoration:none;">Log In</a>
-  <a href="#" class="btn-signup" style="font-size:14px;color:#16a34a;text-decoration:none;font-weight:600;">Sign Up</a>
+  <a href="login.html" class="btn-login" style="font-size:14px;color:#0f172a;text-decoration:none;">Log In</a>
+  <a href="signup.html" class="btn-signup" style="font-size:14px;color:#16a34a;text-decoration:none;font-weight:600;">Sign Up</a>
   <a href="orders.html" class="orders-btn" style="position:relative;color:#0f172a;font-size:22px;text-decoration:none;">
     <i class='bx bx-history'></i>
     <span id="orderCount" style="position:absolute;top:-6px;right:-8px;background:#f59e0b;color:#fff;font-size:11px;padding:2px 6px;border-radius:999px;">1</span>
@@ -860,8 +868,127 @@ body{
 
 
 
-
+<script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-storage-compat.js"></script>
 <script>
+
+  // Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBvoWHr8Ctnzogdu756BpmSjWtmA9l-rlE",
+  authDomain: "cheedan.firebaseapp.com",
+  projectId: "cheedan",
+  storageBucket: "cheedan.firebasestorage.app",
+  messagingSenderId: "445764602981",
+  appId: "1:445764602981:web:5e4b5bfbb507882fd28a8c",
+  measurementId: "G-R2NCH9TRTP"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+
+// Services
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+async function loadStoreData(){
+
+  const pageLoader = document.getElementById("pageLoader");
+
+  try{
+
+    const catSnap = await db.collection("categories").get();
+    categories = catSnap.docs.map(d => ({
+      id: d.id,
+      ...d.data()
+    }));
+
+    const prodSnap = await db.collection("products").get();
+    products = prodSnap.docs.map(d => ({
+      id: d.id,
+      ...d.data()
+    }));
+
+    renderCategories();
+    renderCarousel();
+
+    const params = new URLSearchParams(window.location.search);
+    const activeCategory = params.get("category");
+
+    if(activeCategory){
+
+      document.querySelector(".hero-sidebar").style.display = "none";
+      document.querySelector(".categories-carousel").style.display = "none";
+      document.querySelector(".trust-strip").style.display = "none";
+
+      document.querySelector(".products h3").textContent =
+        activeCategory + " products";
+
+      if(!document.querySelector(".breadcrumb-nav")){
+        const nav = document.createElement("div");
+        nav.className = "breadcrumb-nav";
+        nav.innerHTML = `
+          <a href="${window.location.pathname}">Home</a>
+          <span class="bc-sep">›</span>
+          <span class="bc-current">${activeCategory}</span>
+        `;
+        const title = document.querySelector(".products h3");
+        title.parentNode.insertBefore(nav, title);
+      }
+
+      document.getElementById("bestContainer").style.display = "none";
+
+      const filtered = products.filter(
+        p => p.category === activeCategory
+      );
+
+      renderProducts(filtered, "popularContainer");
+
+    }else{
+      renderTwoSections();
+    }
+
+  }catch(err){
+    console.error(err);
+    alert("Failed to load store data");
+  }
+
+  pageLoader.style.display = "none";
+}
+
+
+const loginBtn = document.querySelector(".btn-login");
+const signupBtn = document.querySelector(".btn-signup");
+
+loginBtn.addEventListener("click", async () => {
+  const email = prompt("Enter your email:");
+  const password = prompt("Enter your password:");
+
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+    alert("Logged in successfully!");
+  } catch (err) {
+    alert("Error: " + err.message);
+  }
+});
+
+signupBtn.addEventListener("click", async () => {
+  const email = prompt("Enter your email:");
+  const password = prompt("Enter your password:");
+
+  try {
+    await auth.createUserWithEmailAndPassword(email, password);
+    alert("Account created!");
+  } catch (err) {
+    alert("Error: " + err.message);
+  }
+});
+
+let categories = [];
+let products = [];
 
   const navLinks = document.querySelectorAll('.bottom-nav a');
 navLinks.forEach(link => {
@@ -871,19 +998,7 @@ navLinks.forEach(link => {
   });
 });
 
-const categories = [
-  { id:1,name:"Electronics"},{id:2,name:"Home Appliances"},{id:3,name:"Groceries"},
-  {id:4,name:"Fashion"},{id:5,name:"Beauty & Care"},{id:6,name:"Toys"},
-  {id:7,name:"Sports"},{id:8,name:"Books"}
-];
-const products = [
-  {id:1,name:"Electric Kettle",category:"Home Appliances",price:12000,image:"https://images.unsplash.com/photo-1586201375761-83865001e31c"},
-  {id:2,name:"Bluetooth Speaker",category:"Electronics",price:18000,image:"https://images.unsplash.com/photo-1585386959984-a41552231693"},
-  {id:3,name:"Rice Cooker",category:"Home Appliances",price:26000,image:"https://images.unsplash.com/photo-1622484212165-8a9d0a5f3f9c"},
-  {id:4,name:"Sneakers",category:"Fashion",price:15000,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff"},
-  {id:5,name:"Hand Blender",category:"Home Appliances",price:14000,image:"https://images.unsplash.com/photo-1585515320310-259814833e62"},
-  {id:6,name:"Skin Care Set",category:"Beauty & Care",price:9000,image:"https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd"}
-];
+
 
 function renderCategories(){
   const desktop = document.getElementById("categoriesContainer");
@@ -1043,52 +1158,11 @@ setInterval(()=>{
   showSlide(heroIndex);
 }, 4000); // 4 seconds per slide
 
-const params = new URLSearchParams(window.location.search);
-const activeCategory = params.get("category");
 
-if(activeCategory){
-  
-
-  document.querySelector(".hero-sidebar").style.display = "none";
-  document.querySelector(".categories-carousel").style.display = "none";
-  document.querySelector(".trust-strip").style.display = "none";
-
-  document.querySelector(".products h3").textContent =
-    activeCategory + " products";
-
-    // breadcrumb
-if(!document.querySelector(".breadcrumb-nav")){
-  const nav = document.createElement("div");
-  nav.className = "breadcrumb-nav";
-  nav.innerHTML = `
-    <a href="${window.location.pathname}">Home</a>
-    <span class="bc-sep">›</span>
-    <span class="bc-current">${activeCategory}</span>
-  `;
-
-  const title = document.querySelector(".products h3");
-  title.parentNode.insertBefore(nav, title);
-}
-
-  document.getElementById("bestContainer").style.display = "none";
-
-  const filtered = products.filter(
-    p => p.category === activeCategory
-  );
-
-  renderProducts(filtered, "popularContainer");
-
-}else{
-
-  renderTwoSections();
-
-}
 
 /* INIT */
 
-renderCategories();
-
-renderCarousel();
+loadStoreData();
 
 const searchInput = document.getElementById("searchInput");
 const searchModal = document.getElementById("searchModal");
@@ -1289,9 +1363,6 @@ backToTop.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-setTimeout(()=>{
-  document.getElementById("pageLoader").style.display="none";
-},300);
 </script>
 
 
