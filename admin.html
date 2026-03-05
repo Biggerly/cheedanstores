@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cheedan Admin Dashboard</title>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<style>
+/* Keep all your existing admin styles */
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:#f8fafc;
+}
+
+.header{
+  position:sticky;
+  top:0;
+  background:#022c22;
+  color:#fff;
+  padding:16px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:20;
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+.header h1{
+  font-size:22px;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.header h1 i{
+  color:#16a34a;
+}
+
+.header button{
+  background:#16a34a;
+  color:#fff;
+  border:none;
+  padding:10px 20px;
+  border-radius:999px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  transition:all 0.2s;
+}
+
+.header button:hover{
+  background:#15803d;
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(22,163,74,0.3);
+}
+
+.layout{
+  max-width:1200px;
+  margin:24px auto;
+  padding:0 24px;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  margin-bottom:24px;
+}
+
+.stat-card{
+  background:#fff;
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+  display:flex;
+  align-items:center;
+  gap:16px;
+  border:1px solid #e5e7eb;
+}
+
+.stat-icon{
+  width:48px;
+  height:48px;
+  border-radius:12px;
+  background:#dcfce7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.stat-icon i{
+  font-size:24px;
+  color:#16a34a;
+}
+
+.stat-info h3{
+  font-size:14px;
+  color:#64748b;
+  margin-bottom:4px;
+}
+
+.stat-info p{
+  font-size:24px;
+  font-weight:700;
+  color:#022c22;
+}
+
+.section{
+  background:#fff;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:24px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+  border:1px solid #e5e7eb;
+}
+
+.section-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.section-header h2{
+  color:#022c22;
+  font-size:20px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.section-header h2 i{
+  color:#16a34a;
+}
+
+.add-category{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  flex:1;
+  max-width:600px;
+}
+
+.add-category input{
+  flex:2;
+  min-width:200px;
+  padding:12px 16px;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  font-size:14px;
+  outline:none;
+  transition:all 0.2s;
+}
+
+.add-category input:focus{
+  border-color:#16a34a;
+  box-shadow:0 0 0 3px rgba(22,163,74,0.1);
+}
+
+.add-category .image-input{
+  flex:2;
+}
+
+.table-container{
+  overflow-x:auto;
+  border-radius:12px;
+  border:1px solid #e5e7eb;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th{
+  background:#f8fafc;
+  padding:14px 16px;
+  text-align:left;
+  font-weight:600;
+  color:#475569;
+  font-size:14px;
+  border-bottom:2px solid #e5e7eb;
+}
+
+td{
+  padding:14px 16px;
+  border-bottom:1px solid #e5e7eb;
+  color:#0f172a;
+  font-size:14px;
+}
+
+tr:last-child td{
+  border-bottom:none;
+}
+
+tr:hover td{
+  background:#f8fafc;
+}
+
+.category-image-thumb{
+  width:40px;
+  height:40px;
+  border-radius:8px;
+  object-fit:cover;
+  border:1px solid #e5e7eb;
+}
+
+.product-image{
+  width:50px;
+  height:40px;
+  object-fit:cover;
+  border-radius:8px;
+  border:1px solid #e5e7eb;
+}
+
+.btn-icon{
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-size:18px;
+  padding:6px;
+  border-radius:6px;
+  transition:all 0.2s;
+  margin:0 4px;
+}
+
+.btn-edit{
+  color:#16a34a;
+}
+
+.btn-edit:hover{
+  background:#dcfce7;
+}
+
+.btn-delete{
+  color:#dc2626;
+}
+
+.btn-delete:hover{
+  background:#fee2e2;
+}
+
+.btn-primary{
+  background:#16a34a;
+  color:#fff;
+  border:none;
+  padding:10px 20px;
+  border-radius:999px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  transition:all 0.2s;
+  white-space:nowrap;
+}
+
+.btn-primary:hover{
+  background:#15803d;
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(22,163,74,0.2);
+}
+
+.btn-secondary{
+  background:#f1f5f9;
+  color:#475569;
+  border:none;
+  padding:8px 16px;
+  border-radius:999px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:500;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  transition:all 0.2s;
+}
+
+.btn-secondary:hover{
+  background:#e2e8f0;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(4px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+  padding:16px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  background:#fff;
+  border-radius:24px;
+  padding:28px;
+  max-width:480px;
+  width:100%;
+  position:relative;
+  box-shadow:0 20px 40px rgba(0,0,0,0.2);
+  animation:modalIn 0.3s ease;
+}
+
+@keyframes modalIn{
+  from{
+    opacity:0;
+    transform:scale(0.9);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+.modal-close{
+  position:absolute;
+  top:16px;
+  right:16px;
+  font-size:20px;
+  background:none;
+  border:none;
+  cursor:pointer;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#64748b;
+  transition:all 0.2s;
+}
+
+.modal-close:hover{
+  background:#f1f5f9;
+  color:#0f172a;
+}
+
+.modal-box h3{
+  margin-bottom:20px;
+  color:#022c22;
+  font-size:22px;
+  font-weight:700;
+}
+
+.modal-box input,
+.modal-box select{
+  width:100%;
+  padding:12px 16px;
+  border:2px solid #e5e7eb;
+  border-radius:12px;
+  margin-bottom:16px;
+  font-size:14px;
+  outline:none;
+  transition:all 0.2s;
+}
+
+.modal-box input:focus,
+.modal-box select:focus{
+  border-color:#16a34a;
+  box-shadow:0 0 0 3px rgba(22,163,74,0.1);
+}
+
+.modal-box label{
+  display:block;
+  font-size:13px;
+  color:#475569;
+  margin-bottom:4px;
+  font-weight:500;
+}
+
+.spinner{
+  width:40px;
+  height:40px;
+  border:4px solid #e5e7eb;
+  border-top:4px solid #16a34a;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+  margin:20px auto;
+}
+
+@keyframes spin{
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
+}
+
+.empty-state{
+  text-align:center;
+  padding:40px;
+  color:#64748b;
+}
+
+.empty-state i{
+  font-size:48px;
+  color:#94a3b8;
+  margin-bottom:12px;
+}
+
+.toast{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  background:#fff;
+  border-radius:999px;
+  padding:12px 24px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.15);
+  display:flex;
+  align-items:center;
+  gap:12px;
+  z-index:1000;
+  transform:translateX(400px);
+  transition:transform 0.3s ease;
+  border-left:4px solid #16a34a;
+}
+
+.toast.show{
+  transform:translateX(0);
+}
+
+.toast i{
+  font-size:20px;
+  color:#16a34a;
+}
+
+.toast.error{
+  border-left-color:#dc2626;
+}
+
+.toast.error i{
+  color:#dc2626;
+}
+
+@media(max-width:768px){
+  .stats-grid{
+    grid-template-columns:1fr;
+  }
+  
+  .layout{
+    padding:0 16px;
+  }
+  
+  .add-category{
+    flex-direction:column;
+    max-width:100%;
+  }
+  
+  .add-category input{
+    width:100%;
+  }
+  
+  .section-header{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+}
+
+.confirm-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(4px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:1001;
+}
+
+.confirm-box{
+  background:#fff;
+  border-radius:24px;
+  padding:28px;
+  max-width:360px;
+  width:90%;
+  text-align:center;
+}
+
+.confirm-box i{
+  font-size:48px;
+  color:#f59e0b;
+  margin-bottom:12px;
+}
+
+.confirm-box h3{
+  font-size:20px;
+  color:#022c22;
+  margin-bottom:8px;
+}
+
+.confirm-box p{
+  color:#64748b;
+  margin-bottom:20px;
+}
+
+.confirm-buttons{
+  display:flex;
+  gap:12px;
+}
+
+.confirm-btn{
+  flex:1;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+
+.confirm-btn.cancel{
+  background:#f1f5f9;
+  color:#475569;
+}
+
+.confirm-btn.confirm{
+  background:#dc2626;
+  color:#fff;
+}
+
+.confirm-btn.confirm:hover{
+  background:#b91c1c;
+}
+
+.image-preview{
+  width:100%;
+  height:100px;
+  border-radius:8px;
+  object-fit:cover;
+  margin-bottom:16px;
+  border:1px solid #e5e7eb;
+  display:none;
+}
+
+.image-preview.show{
+  display:block;
+}
+
+.body{zoom:0.7;}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <h1><i class='bx bx-store'></i> Cheedan Admin</h1>
+  <button id="btnAddProduct">
+    <i class='bx bx-plus'></i> Add Product
+  </button>
+</header>
+
+<div class="layout">
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class='bx bx-category'></i>
+      </div>
+      <div class="stat-info">
+        <h3>Categories</h3>
+        <p id="statsCategories">0</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class='bx bx-package'></i>
+      </div>
+      <div class="stat-info">
+        <h3>Products</h3>
+        <p id="statsProducts">0</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class='bx bx-dollar'></i>
+      </div>
+      <div class="stat-info">
+        <h3>Total Value</h3>
+        <p id="statsValue">₦0</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories Section - UPDATED with Image Field -->
+  <div class="section" id="categoriesSection">
+    <div class="section-header">
+      <h2><i class='bx bx-category'></i> Categories</h2>
+      <div class="add-category">
+        <input type="text" id="newCategory" placeholder="Category name">
+        <input type="text" id="newCategoryImage" class="image-input" placeholder="Image URL (optional)">
+        <button class="btn-primary" id="btnAddCategory">
+          <i class='bx bx-plus'></i> Add Category
+        </button>
+      </div>
+    </div>
+    
+    <div class="table-container">
+      <table class="table" id="categoriesTable">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Category Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Products Section -->
+  <div class="section" id="productsSection">
+    <div class="section-header">
+      <h2><i class='bx bx-package'></i> Products</h2>
+    </div>
+    
+    <div class="table-container">
+      <table class="table" id="productsTable">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Price (₦)</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Category Edit Modal -->
+<div class="modal" id="categoryModal">
+  <div class="modal-box">
+    <button class="modal-close" id="closeCategoryModal"><i class='bx bx-x'></i></button>
+    <h3 id="categoryModalTitle">Edit Category</h3>
+    
+    <label>Category Name</label>
+    <input type="text" id="editCategoryName" placeholder="Category name">
+    
+    <label>Category Image URL</label>
+    <input type="text" id="editCategoryImage" placeholder="https://...">
+    <img id="editCategoryPreview" class="image-preview" src="" alt="Preview">
+    
+    <div style="display:flex; gap:12px; margin-top:16px;">
+      <button class="btn-secondary" id="cancelCategoryModal" style="flex:1;">Cancel</button>
+      <button class="btn-primary" id="saveCategory" style="flex:1;">Save Category</button>
+    </div>
+  </div>
+</div>
+
+<!-- Product Modal -->
+<div class="modal" id="productModal">
+  <div class="modal-box">
+    <button class="modal-close" id="closeProductModal"><i class='bx bx-x'></i></button>
+    <h3 id="modalTitle">Add Product</h3>
+    
+    <label>Product Name</label>
+    <input type="text" id="productName" placeholder="e.g., Electric Kettle">
+    
+    <label>Category</label>
+    <select id="productCategory"></select>
+    
+    <label>Price (₦)</label>
+    <input type="number" id="productPrice" placeholder="e.g., 12000">
+    
+    <label>Image URL</label>
+    <input type="text" id="productImage" placeholder="https://...">
+    <img id="productImagePreview" class="image-preview" src="" alt="Preview">
+    
+    <div style="display:flex; gap:12px; margin-top:16px;">
+      <button class="btn-secondary" id="cancelProductModal" style="flex:1;">Cancel</button>
+      <button class="btn-primary" id="saveProduct" style="flex:1;">Save Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirmation Dialog -->
+<div class="confirm-overlay" id="confirmDialog">
+  <div class="confirm-box">
+    <i class='bx bx-error-circle'></i>
+    <h3 id="confirmTitle">Confirm Delete</h3>
+    <p id="confirmMessage">Are you sure you want to delete this item?</p>
+    <div class="confirm-buttons">
+      <button class="confirm-btn cancel" id="confirmCancel">Cancel</button>
+      <button class="confirm-btn confirm" id="confirmOk">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast">
+  <i class='bx bx-check-circle'></i>
+  <span id="toastMessage">Item saved successfully</span>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore-compat.js"></script>
+
+<script>
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBvoWHr8Ctnzogdu756BpmSjWtmA9l-rlE",
+  authDomain: "cheedan.firebaseapp.com",
+  projectId: "cheedan",
+  storageBucket: "cheedan.firebasestorage.app",
+  messagingSenderId: "445764602981",
+  appId: "1:445764602981:web:5e4b5bfbb507882fd28a8c",
+  measurementId: "G-R2NCH9TRTP"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// Elements
+const categoriesTable = document.querySelector("#categoriesTable tbody");
+const productsTable = document.querySelector("#productsTable tbody");
+const btnAddCategory = document.getElementById("btnAddCategory");
+const newCategoryInput = document.getElementById("newCategory");
+const newCategoryImage = document.getElementById("newCategoryImage");
+const productModal = document.getElementById("productModal");
+const closeProductModal = document.getElementById("closeProductModal");
+const cancelProductModal = document.getElementById("cancelProductModal");
+const btnAddProduct = document.getElementById("btnAddProduct");
+const modalTitle = document.getElementById("modalTitle");
+const productName = document.getElementById("productName");
+const productCategory = document.getElementById("productCategory");
+const productPrice = document.getElementById("productPrice");
+const productImage = document.getElementById("productImage");
+const productImagePreview = document.getElementById("productImagePreview");
+const saveProduct = document.getElementById("saveProduct");
+
+// Category modal elements
+const categoryModal = document.getElementById("categoryModal");
+const closeCategoryModal = document.getElementById("closeCategoryModal");
+const cancelCategoryModal = document.getElementById("cancelCategoryModal");
+const editCategoryName = document.getElementById("editCategoryName");
+const editCategoryImage = document.getElementById("editCategoryImage");
+const editCategoryPreview = document.getElementById("editCategoryPreview");
+const saveCategory = document.getElementById("saveCategory");
+const categoryModalTitle = document.getElementById("categoryModalTitle");
+
+// Stats elements
+const statsCategories = document.getElementById("statsCategories");
+const statsProducts = document.getElementById("statsProducts");
+const statsValue = document.getElementById("statsValue");
+
+// Confirmation dialog
+const confirmDialog = document.getElementById("confirmDialog");
+const confirmTitle = document.getElementById("confirmTitle");
+const confirmMessage = document.getElementById("confirmMessage");
+const confirmCancel = document.getElementById("confirmCancel");
+const confirmOk = document.getElementById("confirmOk");
+
+// Toast
+const toast = document.getElementById("toast");
+const toastMessage = document.getElementById("toastMessage");
+
+let editProductId = null;
+let editCategoryId = null;
+let pendingDelete = null;
+
+// ===== TOAST FUNCTION =====
+function showToast(message, type = "success") {
+  toastMessage.textContent = message;
+  toast.className = "toast";
+  if (type === "error") toast.classList.add("error");
+  
+  toast.classList.add("show");
+  
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}
+
+// ===== CONFIRMATION DIALOG =====
+function showConfirm(title, message, onConfirm) {
+  confirmTitle.textContent = title;
+  confirmMessage.textContent = message;
+  confirmDialog.style.display = "flex";
+  
+  const handleConfirm = () => {
+    onConfirm();
+    hideConfirm();
+  };
+  
+  const handleCancel = () => {
+    hideConfirm();
+  };
+  
+  confirmOk.onclick = handleConfirm;
+  confirmCancel.onclick = handleCancel;
+  
+  confirmDialog.onclick = (e) => {
+    if (e.target === confirmDialog) hideConfirm();
+  };
+}
+
+function hideConfirm() {
+  confirmDialog.style.display = "none";
+}
+
+// ===== IMAGE PREVIEW =====
+productImage.addEventListener("input", (e) => {
+  const url = e.target.value.trim();
+  if (url) {
+    productImagePreview.src = url;
+    productImagePreview.classList.add("show");
+  } else {
+    productImagePreview.classList.remove("show");
+  }
+});
+
+editCategoryImage.addEventListener("input", (e) => {
+  const url = e.target.value.trim();
+  if (url) {
+    editCategoryPreview.src = url;
+    editCategoryPreview.classList.add("show");
+  } else {
+    editCategoryPreview.classList.remove("show");
+  }
+});
+
+// ===== LOAD CATEGORIES =====
+async function loadCategories() {
+  categoriesTable.innerHTML = "";
+  productCategory.innerHTML = "<option value=''>Select Category</option>";
+  
+  const snapshot = await db.collection("categories").orderBy("name").get();
+  
+  snapshot.docs.forEach(doc => {
+    const data = doc.data();
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>
+        <img src="${data.image || 'https://images.unsplash.com/photo-1586201375761-83865001e31c'}" 
+             class="category-image-thumb" 
+             alt="${data.name}"
+             onerror="this.src='https://images.unsplash.com/photo-1586201375761-83865001e31c'">
+      </td>
+      <td><i class='bx bx-folder' style='color:#16a34a; margin-right:8px;'></i>${data.name}</td>
+      <td>
+        <button class="btn-icon btn-edit" onclick="editCategory('${doc.id}')" title="Edit Category">
+          <i class='bx bx-edit'></i>
+        </button>
+        <button class="btn-icon btn-delete" onclick="deleteCategory('${doc.id}')" title="Delete Category">
+          <i class='bx bx-trash'></i>
+        </button>
+      </td>
+    `;
+    categoriesTable.appendChild(tr);
+
+    const opt = document.createElement("option");
+    opt.value = data.name;
+    opt.textContent = data.name;
+    productCategory.appendChild(opt);
+  });
+  
+  statsCategories.textContent = snapshot.size;
+  loadStats();
+}
+
+// ===== ADD CATEGORY =====
+btnAddCategory.addEventListener("click", async () => {
+  const name = newCategoryInput.value.trim();
+  const image = newCategoryImage.value.trim() || 'https://images.unsplash.com/photo-1586201375761-83865001e31c';
+  
+  if (!name) {
+    showToast("Please enter a category name", "error");
+    return;
+  }
+  
+  try {
+    await db.collection("categories").add({ name, image });
+    newCategoryInput.value = "";
+    newCategoryImage.value = "";
+    await loadCategories();
+    showToast("Category added successfully");
+  } catch (error) {
+    showToast("Error adding category", "error");
+  }
+});
+
+// ===== EDIT CATEGORY =====
+window.editCategory = async (id) => {
+  const doc = await db.collection("categories").doc(id).get();
+  const data = doc.data();
+  
+  editCategoryId = id;
+  categoryModalTitle.textContent = "Edit Category";
+  editCategoryName.value = data.name || "";
+  editCategoryImage.value = data.image || "";
+  
+  if (data.image) {
+    editCategoryPreview.src = data.image;
+    editCategoryPreview.classList.add("show");
+  } else {
+    editCategoryPreview.classList.remove("show");
+  }
+  
+  categoryModal.classList.add("show");
+};
+
+// ===== SAVE CATEGORY =====
+saveCategory.addEventListener("click", async () => {
+  const name = editCategoryName.value.trim();
+  const image = editCategoryImage.value.trim() || 'https://images.unsplash.com/photo-1586201375761-83865001e31c';
+  
+  if (!name) {
+    showToast("Category name is required", "error");
+    return;
+  }
+  
+  try {
+    if (editCategoryId) {
+      await db.collection("categories").doc(editCategoryId).update({ name, image });
+      showToast("Category updated successfully");
+    }
+    categoryModal.classList.remove("show");
+    await loadCategories();
+  } catch (error) {
+    showToast("Error saving category", "error");
+  }
+});
+
+// ===== DELETE CATEGORY =====
+window.deleteCategory = async (id) => {
+  showConfirm(
+    "Delete Category",
+    "Are you sure? Products in this category will need reassignment.",
+    async () => {
+      try {
+        await db.collection("categories").doc(id).delete();
+        await loadCategories();
+        await loadProducts();
+        showToast("Category deleted");
+      } catch (error) {
+        showToast("Error deleting category", "error");
+      }
+    }
+  );
+};
+
+// ===== LOAD PRODUCTS =====
+async function loadProducts() {
+  productsTable.innerHTML = "";
+  const snapshot = await db.collection("products").orderBy("name").get();
+  
+  let totalValue = 0;
+  
+  snapshot.docs.forEach(doc => {
+    const data = doc.data();
+    totalValue += data.price || 0;
+    
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>
+        <img src="${data.image || 'https://images.unsplash.com/photo-1586201375761-83865001e31c'}" 
+             class="product-image" 
+             alt="${data.name}"
+             onerror="this.src='https://images.unsplash.com/photo-1586201375761-83865001e31c'">
+      </td>
+      <td><strong>${data.name}</strong></td>
+      <td><span>${data.category || 'Uncategorized'}</span></td>
+      <td>₦${(data.price || 0).toLocaleString()}</td>
+      <td>
+        <button class="btn-icon btn-edit" onclick="editProduct('${doc.id}')" title="Edit Product">
+          <i class='bx bx-edit'></i>
+        </button>
+        <button class="btn-icon btn-delete" onclick="deleteProduct('${doc.id}')" title="Delete Product">
+          <i class='bx bx-trash'></i>
+        </button>
+      </td>
+    `;
+    productsTable.appendChild(tr);
+  });
+  
+  statsProducts.textContent = snapshot.size;
+  statsValue.textContent = "₦" + totalValue.toLocaleString();
+}
+
+// ===== LOAD STATS =====
+async function loadStats() {
+  const productsSnap = await db.collection("products").get();
+  let total = 0;
+  productsSnap.docs.forEach(doc => {
+    total += doc.data().price || 0;
+  });
+  statsValue.textContent = "₦" + total.toLocaleString();
+}
+
+// ===== ADD/EDIT PRODUCT =====
+btnAddProduct.addEventListener("click", () => {
+  editProductId = null;
+  modalTitle.textContent = "Add Product";
+  productName.value = "";
+  productPrice.value = "";
+  productImage.value = "";
+  productImagePreview.classList.remove("show");
+  productCategory.value = "";
+  productModal.classList.add("show");
+});
+
+function closeModal() {
+  productModal.classList.remove("show");
+}
+
+closeProductModal.addEventListener("click", closeModal);
+cancelProductModal.addEventListener("click", closeModal);
+
+productModal.addEventListener("click", (e) => {
+  if (e.target === productModal) closeModal();
+});
+
+// Category modal close
+function closeCategoryModalFn() {
+  categoryModal.classList.remove("show");
+}
+
+closeCategoryModal.addEventListener("click", closeCategoryModalFn);
+cancelCategoryModal.addEventListener("click", closeCategoryModalFn);
+
+categoryModal.addEventListener("click", (e) => {
+  if (e.target === categoryModal) closeCategoryModalFn();
+});
+
+window.editProduct = async (id) => {
+  const doc = await db.collection("products").doc(id).get();
+  const data = doc.data();
+  editProductId = id;
+  modalTitle.textContent = "Edit Product";
+  productName.value = data.name || "";
+  productCategory.value = data.category || "";
+  productPrice.value = data.price || "";
+  productImage.value = data.image || "";
+  
+  if (data.image) {
+    productImagePreview.src = data.image;
+    productImagePreview.classList.add("show");
+  } else {
+    productImagePreview.classList.remove("show");
+  }
+  
+  productModal.classList.add("show");
+};
+
+// ===== SAVE PRODUCT =====
+saveProduct.addEventListener("click", async () => {
+  const name = productName.value.trim();
+  const category = productCategory.value;
+  const price = parseFloat(productPrice.value);
+  const image = productImage.value.trim() || 'https://images.unsplash.com/photo-1586201375761-83865001e31c';
+
+  if (!name) {
+    showToast("Product name is required", "error");
+    return;
+  }
+  
+  if (!category) {
+    showToast("Please select a category", "error");
+    return;
+  }
+  
+  if (!price || price <= 0) {
+    showToast("Please enter a valid price", "error");
+    return;
+  }
+
+  const productData = { name, category, price, image };
+
+  try {
+    if (editProductId) {
+      await db.collection("products").doc(editProductId).update(productData);
+      showToast("Product updated successfully");
+    } else {
+      await db.collection("products").add(productData);
+      showToast("Product added successfully");
+    }
+    closeModal();
+    await loadProducts();
+  } catch (error) {
+    showToast("Error saving product", "error");
+  }
+});
+
+// ===== DELETE PRODUCT =====
+window.deleteProduct = async (id) => {
+  showConfirm(
+    "Delete Product",
+    "Are you sure you want to delete this product?",
+    async () => {
+      try {
+        await db.collection("products").doc(id).delete();
+        await loadProducts();
+        showToast("Product deleted");
+      } catch (error) {
+        showToast("Error deleting product", "error");
+      }
+    }
+  );
+};
+
+// ===== INITIAL LOAD =====
+loadCategories();
+loadProducts();
+
+// Enter key support
+newCategoryInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") btnAddCategory.click();
+});
+
+newCategoryImage.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") btnAddCategory.click();
+});
+</script>
+
+</body>
+</html>
