@@ -642,17 +642,16 @@
 }
 
 /* Add to your existing CSS styles */
-.navbar{
-  height:50px;
-  display:flex;
-  align-items:center;
+    .logo {
+  display: flex;
+  align-items: center;
 }
 
-.logo-img{
-  height:85px;
-  width:auto;
-           }
-
+.logo-img {
+  height: 42px;      /* controls logo size */
+  width: auto;       /* keeps rectangle shape */
+  object-fit: contain;
+}
 
   </style>
 </head>
@@ -665,9 +664,9 @@
       <button class="hamburger" id="openMenu"><i class='bx bx-menu'></i></button>
       <!-- Replace the existing logo div with this -->
 <!-- Replace the existing logo div with this -->
-<div class="logo">
-  <img src="cheedanlogo-removebg-preview.png" alt="Cheedan Stores Logo" class="logo-img">
-</div>
+<a href="/" class="logo">
+  <img src="images/cheedan-logo.png" alt="Cheedan Store" class="logo-img">
+</a>
 
       <!-- DESKTOP NAVIGATION (visible ≥900px) -->
       <nav class="desktop-nav">
