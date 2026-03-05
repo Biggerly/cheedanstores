@@ -25,13 +25,17 @@ body{
   max-width:900px;
   margin:auto;
   padding:14px 16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
 .header a{
   text-decoration:none;
   color:#16a34a;
   font-weight:600;
-  margin-right:6px;
+  display:flex;
+  align-items:center;
 }
 
 .main{
@@ -44,24 +48,93 @@ body{
   font-size:13px;
   margin-bottom:16px;
   color:#475569;
+  display:flex;
+  align-items:center;
+  gap:6px;
 }
 
 .breadcrumb a{
   color:#16a34a;
   text-decoration:none;
-  margin-right:4px;
 }
 
-.support-card{
+.breadcrumb i{
+  font-size:14px;
+  color:#94a3b8;
+}
+
+/* Support Options Grid */
+.support-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-bottom:24px;
+}
+
+.support-option{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:20px 12px;
+  text-align:center;
+  cursor:pointer;
+  transition:all 0.2s;
+  text-decoration:none;
+  color:#0f172a;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+}
+
+.support-option i{
+  font-size:32px;
+  color:#16a34a;
+  background:#dcfce7;
+  width:60px;
+  height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+}
+
+.support-option span{
+  font-weight:600;
+  font-size:14px;
+}
+
+.support-option small{
+  font-size:11px;
+  color:#64748b;
+}
+
+.support-option:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 16px rgba(0,0,0,0.08);
+  border-color:#16a34a;
+}
+
+.support-option.whatsapp i{ background:#e8f5e9; color:#25D366; }
+.support-option.phone i{ background:#fee2e2; color:#ef4444; }
+.support-option.email i{ background:#e0f2fe; color:#0284c7; }
+.support-option.chat i{ background:#f3e8ff; color:#9333ea; }
+
+/* Contact Form Card */
+.contact-card{
   background:#fff;
   border:1px solid #e5e7eb;
   border-radius:16px;
   padding:18px;
+  margin-top:16px;
 }
 
-.support-card h2{
-  margin-bottom:14px;
+.contact-card h3{
+  margin-bottom:16px;
   color:#022c22;
+  display:flex;
+  align-items:center;
+  gap:8px;
 }
 
 .form-group{
@@ -83,6 +156,11 @@ body{
   font-size:14px;
 }
 
+.form-group input:focus, .form-group textarea:focus{
+  outline:2px solid #16a34a;
+  border-color:transparent;
+}
+
 button{
   padding:12px;
   border:none;
@@ -92,6 +170,11 @@ button{
   font-weight:600;
   cursor:pointer;
   width:100%;
+  transition:background 0.2s;
+}
+
+button:hover{
+  background:#15803d;
 }
 
 .hidden{display:none;}
@@ -105,18 +188,92 @@ button{
 }
 
 #alertModal div{
-  background:#fff;padding:20px 24px;border-radius:12px;
+  background:#fff;padding:24px;border-radius:16px;
   max-width:320px;width:90%;text-align:center;
-  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+#alertModal i{
+  font-size:48px;
+  color:#16a34a;
+  margin-bottom:12px;
 }
 
 #alertModal p{
-  margin-bottom:16px;color:#022c22;font-weight:500;
+  margin-bottom:20px;color:#022c22;font-weight:500;
+  line-height:1.5;
 }
 
 #alertOkBtn{
-  padding:10px 16px;border:none;border-radius:8px;
+  padding:10px 24px;border:none;border-radius:999px;
   background:#16a34a;color:#fff;font-weight:600;cursor:pointer;
+  width:auto;
+  min-width:100px;
+}
+
+/* FAQ Section */
+.faq-section{
+  margin-top:24px;
+}
+
+.faq-item{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:8px;
+  cursor:pointer;
+}
+
+.faq-question{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:600;
+  color:#022c22;
+}
+
+.faq-answer{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px dashed #e5e7eb;
+  font-size:14px;
+  color:#475569;
+  line-height:1.5;
+  display:none;
+}
+
+.faq-item.open .faq-answer{
+  display:block;
+}
+
+.faq-item i{
+  transition:transform 0.2s;
+}
+
+.faq-item.open i{
+  transform:rotate(180deg);
+}
+
+.empty{
+  text-align:center;
+  padding:60px 20px;
+  color:#64748b;
+  background:#fff;
+  border:1px dashed #e5e7eb;
+  border-radius:16px;
+}
+
+.empty a{
+  color:#16a34a;
+  text-decoration:none;
+  font-weight:600;
+  display:inline-block;
+  margin-top:12px;
+}
+
+body{
+  background: linear-gradient(0deg, rgba(0,0,0,0.015), rgba(0,0,0,0.015)), #faf9f6;
 }
 </style>
 </head>
@@ -124,42 +281,129 @@ button{
 
 <header class="header">
   <div class="header-inner">
-    <div class="breadcrumb">
-      <a href="index.html">Home</a> &raquo;
-      <a href="account.html">My Account</a> &raquo;
-      <span>Customer Support</span>
-    </div>
+    <a href="account.html"><i class='bx bx-arrow-back'></i></a>
+    <strong>Customer Support</strong>
   </div>
 </header>
 
 <main class="main">
 
-  <div class="support-card hidden" id="supportCard">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a>
+    <i class='bx bx-chevron-right'></i>
+    <a href="account.html">Account</a>
+    <i class='bx bx-chevron-right'></i>
+    <span>Support</span>
+  </div>
 
-    <h2>Contact Customer Support</h2>
+  <!-- Link Boxes / Support Options -->
+  <div class="support-grid" id="supportGrid">
+    <!-- WhatsApp -->
+    <a href="#" class="support-option whatsapp" id="whatsappBtn">
+      <i class='bx bxl-whatsapp'></i>
+      <span>WhatsApp</span>
+      <small>Quick response</small>
+    </a>
+
+    <!-- Phone -->
+    <a href="#" class="support-option phone" id="phoneBtn">
+      <i class='bx bx-phone'></i>
+      <span>Phone Call</span>
+      <small>Mon-Fri, 9am-5pm</small>
+    </a>
+
+    <!-- Email -->
+    <a href="#" class="support-option email" id="emailBtn">
+      <i class='bx bx-envelope'></i>
+      <span>Email Us</span>
+      <small>24hr response</small>
+    </a>
+
+    <!-- Live Chat -->
+    <a href="#" class="support-option chat" id="chatBtn">
+      <i class='bx bx-chat'></i>
+      <span>Live Chat</span>
+      <small>Online now</small>
+    </a>
+  </div>
+
+  <!-- Contact Form (Shows when signed in) -->
+  <div class="contact-card hidden" id="contactCard">
+    <h3>
+      <i class='bx bx-message-detail' style="color:#16a34a;"></i>
+      Send us a message
+    </h3>
 
     <div class="form-group">
       <label for="subjectInput">Subject</label>
-      <input type="text" id="subjectInput" placeholder="Enter subject">
+      <input type="text" id="subjectInput" placeholder="e.g., Order issue, Delivery question...">
     </div>
 
     <div class="form-group">
       <label for="messageInput">Message</label>
-      <textarea id="messageInput" rows="5" placeholder="Describe your issue"></textarea>
+      <textarea id="messageInput" rows="4" placeholder="How can we help you?"></textarea>
     </div>
 
     <button id="submitBtn">Send Message</button>
-
   </div>
 
+  <!-- Not Signed In Message -->
   <div class="empty hidden" id="notSignedIn">
-    You are not signed in.<br><br>
-    <a href="login.html">Log in</a> to contact support.
+    <i class='bx bx-user-circle' style="font-size:48px; color:#94a3b8;"></i>
+    <h3 style="margin:12px 0;">You're not signed in</h3>
+    <p>Please log in to send messages and track your support requests.</p>
+    <a href="login.html">Log in</a> or <a href="signup.html">Sign up</a>
+  </div>
+
+  <!-- FAQ Section -->
+  <div class="faq-section" id="faqSection">
+    <h3 style="margin-bottom:12px; color:#022c22;">Frequently Asked Questions</h3>
+    
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>How long does delivery take?</span>
+        <i class='bx bx-chevron-down'></i>
+      </div>
+      <div class="faq-answer">
+        Delivery within Anambra takes 1-2 business days. Other regions may take 3-5 business days.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>What's your return policy?</span>
+        <i class='bx bx-chevron-down'></i>
+      </div>
+      <div class="faq-answer">
+        Items can be returned within 7 days of delivery. Product must be unused and in original packaging.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>How do I track my order?</span>
+        <i class='bx bx-chevron-down'></i>
+      </div>
+      <div class="faq-answer">
+        Go to "My Orders" in your account to see real-time tracking information for your orders.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>Do you deliver outside Anambra?</span>
+        <i class='bx bx-chevron-down'></i>
+      </div>
+      <div class="faq-answer">
+        Yes! We deliver nationwide. Delivery fees vary by location and order value.
+      </div>
+    </div>
   </div>
 
   <!-- Custom Alert Modal -->
   <div id="alertModal">
     <div>
+      <i class='bx bx-check-circle'></i>
       <p id="alertMsg"></p>
       <button id="alertOkBtn">OK</button>
     </div>
@@ -194,16 +438,32 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const supportCard = document.getElementById("supportCard");
+// DOM Elements
+const contactCard = document.getElementById("contactCard");
 const notSignedIn = document.getElementById("notSignedIn");
 const subjectInput = document.getElementById("subjectInput");
 const messageInput = document.getElementById("messageInput");
 const submitBtn = document.getElementById("submitBtn");
 
+// Link Boxes
+const whatsappBtn = document.getElementById("whatsappBtn");
+const phoneBtn = document.getElementById("phoneBtn");
+const emailBtn = document.getElementById("emailBtn");
+const chatBtn = document.getElementById("chatBtn");
+
+// Modal
 const alertModal = document.getElementById("alertModal");
 const alertMsg = document.getElementById("alertMsg");
 const alertOkBtn = document.getElementById("alertOkBtn");
 
+// FAQ Toggle
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.addEventListener('click', () => {
+    item.classList.toggle('open');
+  });
+});
+
+// Modal Functions
 function showAlert(message){
   alertMsg.textContent = message;
   alertModal.style.display = "flex";
@@ -213,43 +473,89 @@ alertOkBtn.onclick = () => {
   alertModal.style.display = "none";
 };
 
+// Auth State
 onAuthStateChanged(auth, (user) => {
   if(user){
-    supportCard.classList.remove("hidden");
+    contactCard.classList.remove("hidden");
     notSignedIn.classList.add("hidden");
-
-    submitBtn.onclick = async () => {
-      const subject = subjectInput.value.trim();
-      const message = messageInput.value.trim();
-
-      if(!subject || !message){
-        showAlert("Please fill in both subject and message.");
-        return;
-      }
-
-      try{
-        const docRef = doc(db, "supportMessages", user.uid + "_" + Date.now());
-        await setDoc(docRef, {
-          uid: user.uid,
-          name: user.displayName || "",
-          email: user.email,
-          subject,
-          message,
-          createdAt: serverTimestamp()
-        });
-
-        subjectInput.value = "";
-        messageInput.value = "";
-        showAlert("Your message has been sent!");
-      }catch(err){
-        console.error(err);
-        showAlert("Error sending message. Try again.");
-      }
-    }
-
   }else{
-    supportCard.classList.add("hidden");
+    contactCard.classList.add("hidden");
     notSignedIn.classList.remove("hidden");
+  }
+});
+
+// ========== LINK BOXES / CONTACT OPTIONS ==========
+
+// WhatsApp
+whatsappBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  const phone = "2348012345678"; // Your WhatsApp number
+  const message = "Hello, I need help with my order.";
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+});
+
+// Phone
+phoneBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  showAlert("Call us: +234 801 234 5678\nMonday-Friday, 9am-5pm");
+});
+
+// Email
+emailBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  const email = "support@cheedanstores.com";
+  const subject = "Customer Support Request";
+  window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
+});
+
+// Live Chat
+chatBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  
+  const user = auth.currentUser;
+  if(!user){
+    showAlert("Please log in to use live chat.");
+    return;
+  }
+  
+  showAlert("Live chat is currently offline. Please send a message below or try WhatsApp.");
+  // OR open a chat widget here if you have one
+});
+
+// Submit Message to Firebase
+submitBtn.addEventListener("click", async () => {
+  const user = auth.currentUser;
+  if(!user){
+    showAlert("You must be logged in to send a message.");
+    return;
+  }
+
+  const subject = subjectInput.value.trim();
+  const message = messageInput.value.trim();
+
+  if(!subject || !message){
+    showAlert("Please fill in both subject and message.");
+    return;
+  }
+
+  try{
+    const docRef = doc(db, "supportMessages", user.uid + "_" + Date.now());
+    await setDoc(docRef, {
+      uid: user.uid,
+      name: user.displayName || "Customer",
+      email: user.email,
+      subject,
+      message,
+      createdAt: serverTimestamp(),
+      status: "new"
+    });
+
+    subjectInput.value = "";
+    messageInput.value = "";
+    showAlert("✅ Your message has been sent! We'll respond within 24 hours.");
+  }catch(err){
+    console.error(err);
+    showAlert("❌ Error sending message. Please try again.");
   }
 });
 </script>
