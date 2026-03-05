@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ – Cheedan Stores</title>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:#f8fafc;
+  padding:16px;
+}
+
+.page{
+  max-width:900px;
+  margin:auto;
+}
+
+/* Header */
+.header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.back-btn{
+  background:none;
+  border:none;
+  font-size:24px;
+  color:#16a34a;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  padding:4px;
+  border-radius:50%;
+  transition:background 0.2s;
+}
+
+.back-btn:hover{
+  background:#f1f5f9;
+}
+
+.breadcrumb{
+  font-size:13px;
+  color:#64748b;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.breadcrumb a{
+  color:#16a34a;
+  text-decoration:none;
+}
+
+.breadcrumb a:hover{
+  text-decoration:underline;
+}
+
+.breadcrumb i{
+  font-size:14px;
+  color:#94a3b8;
+}
+
+.breadcrumb span{
+  color:#0f172a;
+  font-weight:600;
+}
+
+/* Title */
+.page-title{
+  margin-bottom:24px;
+}
+
+.page-title h1{
+  font-size:28px;
+  color:#022c22;
+  margin-bottom:8px;
+}
+
+.page-title p{
+  font-size:14px;
+  color:#64748b;
+}
+
+/* Search */
+.search-box{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:999px;
+  padding:4px 4px 4px 16px;
+  display:flex;
+  align-items:center;
+  margin-bottom:24px;
+}
+
+.search-box i{
+  color:#94a3b8;
+  font-size:20px;
+}
+
+.search-box input{
+  flex:1;
+  border:none;
+  padding:12px 8px;
+  font-size:14px;
+  outline:none;
+  background:transparent;
+}
+
+.search-box button{
+  background:#16a34a;
+  border:none;
+  color:#fff;
+  padding:10px 20px;
+  border-radius:999px;
+  font-weight:600;
+  cursor:pointer;
+  transition:background 0.2s;
+}
+
+.search-box button:hover{
+  background:#15803d;
+}
+
+/* Category Tabs */
+.category-tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:24px;
+  overflow-x:auto;
+  padding-bottom:4px;
+  scrollbar-width:none;
+}
+
+.category-tabs::-webkit-scrollbar{
+  display:none;
+}
+
+.category-tab{
+  padding:10px 20px;
+  border-radius:999px;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  font-size:14px;
+  font-weight:500;
+  color:#475569;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:all 0.2s;
+}
+
+.category-tab:hover{
+  border-color:#16a34a;
+  color:#16a34a;
+}
+
+.category-tab.active{
+  background:#16a34a;
+  border-color:#16a34a;
+  color:#fff;
+}
+
+.category-tab i{
+  margin-right:6px;
+  font-size:16px;
+  vertical-align:middle;
+}
+
+/* FAQ Sections */
+.faq-section{
+  margin-bottom:32px;
+  scroll-margin-top:20px;
+}
+
+.section-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:16px;
+  padding-bottom:8px;
+  border-bottom:2px solid #e5e7eb;
+}
+
+.section-title i{
+  font-size:24px;
+  color:#16a34a;
+  background:#dcfce7;
+  padding:8px;
+  border-radius:12px;
+}
+
+.section-title h2{
+  font-size:20px;
+  color:#022c22;
+}
+
+/* FAQ Grid */
+.faq-grid{
+  display:grid;
+  gap:12px;
+}
+
+/* FAQ Item */
+.faq-item{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  overflow:hidden;
+  transition:all 0.2s;
+}
+
+.faq-item:hover{
+  border-color:#16a34a;
+  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+}
+
+.faq-question{
+  padding:18px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:pointer;
+  font-weight:600;
+  color:#0f172a;
+  transition:background 0.2s;
+}
+
+.faq-question:hover{
+  background:#f8fafc;
+}
+
+.faq-question span{
+  flex:1;
+  font-size:15px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.faq-question span i{
+  font-size:18px;
+  color:#16a34a;
+}
+
+.faq-question i{
+  font-size:20px;
+  color:#16a34a;
+  transition:transform 0.3s;
+}
+
+.faq-item.active .faq-question i{
+  transform:rotate(180deg);
+}
+
+.faq-answer{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.3s ease-out;
+  background:#f8fafc;
+}
+
+.faq-item.active .faq-answer{
+  max-height:500px;
+  transition:max-height 0.5s ease-in;
+}
+
+.answer-content{
+  padding:0 20px 20px 20px;
+  color:#475569;
+  font-size:14px;
+  line-height:1.6;
+}
+
+.answer-content p{
+  margin-bottom:12px;
+}
+
+.answer-content ul, 
+.answer-content ol{
+  margin-left:20px;
+  margin-bottom:12px;
+}
+
+.answer-content li{
+  margin-bottom:6px;
+}
+
+.answer-content strong{
+  color:#022c22;
+}
+
+/* Info Box */
+.info-box{
+  background:#f0fdf4;
+  border:1px solid #16a34a;
+  border-radius:16px;
+  padding:20px;
+  margin:24px 0;
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+}
+
+.info-box i{
+  font-size:32px;
+  color:#16a34a;
+  flex-shrink:0;
+}
+
+.info-box-content h3{
+  font-size:16px;
+  color:#022c22;
+  margin-bottom:8px;
+}
+
+.info-box-content p{
+  font-size:14px;
+  color:#475569;
+  margin-bottom:4px;
+}
+
+.info-box-content a{
+  color:#16a34a;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.info-box-content a:hover{
+  text-decoration:underline;
+}
+
+/* Contact Cards */
+.contact-cards{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin:24px 0;
+}
+
+.contact-card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:16px;
+  text-align:center;
+  transition:all 0.2s;
+}
+
+.contact-card:hover{
+  border-color:#16a34a;
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+.contact-card i{
+  font-size:32px;
+  color:#16a34a;
+  margin-bottom:8px;
+}
+
+.contact-card h4{
+  font-size:15px;
+  color:#0f172a;
+  margin-bottom:4px;
+}
+
+.contact-card p{
+  font-size:13px;
+  color:#64748b;
+  margin-bottom:8px;
+}
+
+.contact-card a{
+  color:#16a34a;
+  text-decoration:none;
+  font-weight:600;
+  font-size:13px;
+}
+
+.contact-card a:hover{
+  text-decoration:underline;
+}
+
+/* Still have questions */
+.still-questions{
+  text-align:center;
+  padding:32px;
+  background:#fff;
+  border-radius:16px;
+  border:1px solid #e5e7eb;
+  margin-top:32px;
+}
+
+.still-questions i{
+  font-size:48px;
+  color:#16a34a;
+  margin-bottom:12px;
+}
+
+.still-questions h3{
+  font-size:18px;
+  color:#022c22;
+  margin-bottom:8px;
+}
+
+.still-questions p{
+  font-size:14px;
+  color:#64748b;
+  margin-bottom:16px;
+}
+
+.still-questions .contact-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:#16a34a;
+  color:#fff;
+  text-decoration:none;
+  padding:12px 24px;
+  border-radius:999px;
+  font-weight:600;
+  transition:all 0.2s;
+}
+
+.still-questions .contact-btn:hover{
+  background:#15803d;
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(22,163,74,0.3);
+}
+
+/* No results */
+.no-results{
+  text-align:center;
+  padding:40px;
+  background:#fff;
+  border-radius:16px;
+  border:1px dashed #e5e7eb;
+  display:none;
+}
+
+.no-results i{
+  font-size:48px;
+  color:#94a3b8;
+  margin-bottom:12px;
+}
+
+.no-results h3{
+  font-size:18px;
+  color:#022c22;
+  margin-bottom:8px;
+}
+
+.no-results p{
+  font-size:14px;
+  color:#64748b;
+  margin-bottom:16px;
+}
+
+.no-results .clear-search{
+  background:#f1f5f9;
+  border:none;
+  padding:10px 20px;
+  border-radius:999px;
+  color:#475569;
+  cursor:pointer;
+  font-weight:600;
+}
+
+/* Responsive */
+@media(max-width:600px){
+  .contact-cards{
+    grid-template-columns:1fr;
+  }
+  
+  .info-box{
+    flex-direction:column;
+    text-align:center;
+  }
+  
+  .page-title h1{
+    font-size:24px;
+  }
+}
+
+.hidden{
+  display:none;
+}
+
+body{
+  background:linear-gradient(0deg, rgba(0,0,0,0.015), rgba(0,0,0,0.015)), #faf9f6;
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <button class="back-btn" id="goBack">
+      <i class='bx bx-arrow-back'></i>
+    </button>
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <i class='bx bx-chevron-right'></i>
+      <span>FAQ</span>
+    </div>
+  </div>
+
+  <!-- Page Title -->
+  <div class="page-title">
+    <h1>Frequently Asked Questions</h1>
+    <p>Find answers to common questions about delivery, returns, and more</p>
+  </div>
+
+  <!-- Search -->
+  <div class="search-box">
+    <i class='bx bx-search'></i>
+    <input type="text" id="searchInput" placeholder="Search FAQs...">
+    <button id="searchBtn">Search</button>
+  </div>
+
+  <!-- Category Tabs -->
+  <div class="category-tabs" id="categoryTabs">
+    <div class="category-tab active" data-category="all">
+      <i class='bx bx-grid-alt'></i> All
+    </div>
+    <div class="category-tab" data-category="delivery">
+      <i class='bx bx-truck'></i> Delivery
+    </div>
+    <div class="category-tab" data-category="returns">
+      <i class='bx bx-undo'></i> Returns
+    </div>
+    <div class="category-tab" data-category="payment">
+      <i class='bx bx-credit-card'></i> Payment
+    </div>
+    <div class="category-tab" data-category="orders">
+      <i class='bx bx-package'></i> Orders
+    </div>
+    <div class="category-tab" data-category="account">
+      <i class='bx bx-user'></i> Account
+    </div>
+  </div>
+
+  <!-- No Results -->
+  <div id="noResults" class="no-results">
+    <i class='bx bx-search-alt'></i>
+    <h3>No results found</h3>
+    <p>Try different keywords or browse by category</p>
+    <button class="clear-search" id="clearSearch">Clear Search</button>
+  </div>
+
+  <!-- ===== DELIVERY SECTION ===== -->
+  <section id="delivery-section" class="faq-section" data-category="delivery">
+    <div class="section-title">
+      <i class='bx bx-truck'></i>
+      <h2>Delivery Information</h2>
+    </div>
+    
+    <div class="faq-grid">
+      <!-- Delivery FAQ 1 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span><i class='bx bx-map'></i> What areas do you deliver to?</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="faq-answer">
+          <div class="answer-content">
+            <p>We currently deliver to all locations within <strong>Anambra State</strong> and major cities across <strong>Nigeria</strong>.</p>
+            <p><strong>Delivery coverage:</strong></p>
+            <ul>
+              <li><strong>Anambra:</strong> Awka, Onitsha, Nnewi, Ekwulobia, and all local government areas</li>
+              <li><strong>South-East:</strong> Enugu, Aba, Owerri, Abakaliki, Umuahia</li>
+              <li><strong>Other regions:</strong> Lagos, Abuja, Port Harcourt, Ibadan, Kano</li>
+            </ul>
+            <p>Enter your delivery address at checkout to confirm if we deliver to your location.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delivery FAQ 2 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span><i class='bx bx-time'></i> How long does delivery take?</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="faq-answer">
+          <div class="answer-content">
+            <p><strong>Delivery times vary by location:</strong></p>
+            <ul>
+              <li><strong>Anambra:</strong> 1-2 business days</li>
+              <li><strong>South-East:</strong> 2-3 business days</li>
+              <li><strong>Lagos & Abuja:</strong> 3-4 business days</li>
+              <li><strong>Other regions:</strong> 4-6 business days</li>
+            </ul>
+            <p>Orders placed before 2pm Monday-Friday are processed the same day. Weekends and public holidays may cause slight delays.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delivery FAQ 3 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span><i class='bx bx-money'></i> How much is delivery?</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="faq-answer">
+          <div class="answer-content">
+            <p><strong>Delivery fees:</strong></p>
+            <ul>
+              <li><strong>Anambra:</strong> ₦1,500 (FREE for orders above ₦15,000)</li>
+              <li><strong>South-East:</strong> ₦2,500 (FREE for orders above ₦25,000)</li>
+              <li><strong>Lagos/Abuja:</strong> ₦3,500 (FREE for orders above ₦35,000)</li>
+              <li><strong>Other regions:</strong> ₦4,500 - ₦6,500 depending on location</li>
+            </ul>
+            <p>Delivery fee is calculated automatically at checkout based on your location and order total.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delivery FAQ 4 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span><i class='bx bx-rocket'></i> Do you offer express delivery?</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="faq-answer">
+          <div class="answer-content">
+            <p>Yes! We offer express delivery in select areas:</p>
+            <ul>
+              <li><strong>Same-day delivery:</strong> Awka, Onitsha (order before 11am) - ₦3,500</li>
+              <li><strong>Next-day delivery:</strong> Major Anambra cities - ₦2,500</li>
+            </ul>
+            <p>Express delivery options appear at checkout if available for your location.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delivery FAQ 5 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span><i class='bx bx-phone'></i> Will I be contacted before delivery?</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="faq-answer">
+          <div class="answer-content">
+            <p>Yes! Our delivery partner will call you 30-60 minutes before arrival. Please ensure your phone number is correct at checkout.</p>
+            <p>If you miss the call, they'll try up to 3 times. You can also track your order status in "My Orders".</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RETURNS SECTION ===== -->
+  <section id="returns-section" class="faq-section" data-category="returns">
+    <div class="section-title">
+      <i class='bx bx-undo'></i>
+      <h2>Returns & Refunds</h2>
+    </div>
+    
+    <div class="faq-grid">
+      <!-- Returns FAQ 1 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span><i class='bx bx-calendar'></i> What is your return policy?</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="faq-answer">
+          <div class="answer-content">
+            <p>We offer a <strong>7-day return policy</strong> on most items. You can return items if:</p>
+            <ul>
+              <li>Item is defective or damaged</li>
+              <li>Wrong item was delivered</li>
+              <li>Item doesn't match description</li>
+            </ul>
+            <p><strong>Items must be:</strong> Unused, in original packaging, with all tags attached.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Returns FAQ 2 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span><i class='bx bx-transfer'></i> How do I return an item?</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="faq-answer">
+          <div class="answer-content">
+            <p><strong>To return an item:</strong></p>
+            <ol>
+              <li>Go to "My Orders" in your account</li>
+              <li>Select the order and item you want to return</li>
+              <li>Click "Request Return" and select a reason</li>
+              <li>Upload photos if item is damaged</li>
+              <li>Submit request</li>
+            </ol>
+            <p>We'll review your request within 24 hours and provide return instructions.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Returns FAQ 3 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span><i class='bx bx-time'></i> How long do refunds take?</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="faq-answer">
+          <div class="answer-content">
+            <p><strong>Refund processing times:</strong></p>
+            <ul>
+              <li><strong>Bank transfer:</strong> 3-5 business days</li>
+              <li><strong>Card refund:</strong> 5-7 business days</li>
+              <li><strong>Store credit:</strong> Instant upon approval</li>
+            </ul>
+            <p>Refunds are processed after we receive and inspect the returned item.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Returns FAQ 4 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span><i class='bx bx-truck'></i> Who pays for return shipping?</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="faq-answer">
+          <div class="answer-content">
+            <p><strong>Return shipping costs:</strong></p>
+            <ul>
+              <li><strong>Defective/Wrong item:</strong> We cover all return shipping costs</li>
+              <li><strong>Changed mind:</strong> Customer pays return shipping (₦1,500 - ₦3,500)</li>
+            </ul>
+            <p>For changed mind returns, the original delivery fee is non-refundable.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Returns FAQ 5 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span><i class='bx bx-block'></i> What items can't be returned?</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="faq-answer">
+          <div class="answer-content">
+            <p><strong>Non-returnable items:</strong></p>
+            <ul>
+              <li>Perishable goods (food, groceries)</li>
+              <li>Personal care items (if seal is broken)</li>
+              <li>Underwear and swimwear</li>
+              <li>Customized or personalized items</li>
+              <li>Gift cards</li>
+            </ul>
+            <p>These items can only be returned if defective.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PAYMENT SECTION ===== -->
+  <section id="payment-section" class="faq-section" data-category="payment">
+    <div class="section-title">
+      <i class='bx bx-credit-card'></i>
+      <h2>Payment Options</h2>
+    </div>
+    
+    <div class="faq-grid">
+      <div class="faq-item">
+        <div class="faq-question">
+          <span><i class='bx bx-credit-card'></i> What payment methods do you accept?</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="faq-answer">
+          <div class="answer-content">
+            <p><strong>We accept:</strong></p>
+            <ul>
+              <li><strong>Card payments:</strong> Visa, Mastercard, Verve (via Paystack)</li>
+              <li><strong>Bank transfer:</strong> Instant transfer</li>
+              <li><strong>USSD:</strong> Quick banking from any phone</li>
+              <li><strong>Pay on Delivery:</strong> Cash or transfer to rider</li>
+            </ul>
+            <p>All online payments are securely processed by Paystack.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span><i class='bx bx-lock'></i> Is online payment secure?</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="faq-answer">
+          <div class="answer-content">
+            <p>Yes! We use <strong>Paystack</strong>, a PCI-DSS compliant payment processor. Your card details are encrypted and never stored on our servers.</p>
+            <p>Paystack is used by thousands of Nigerian businesses and processes millions of transactions safely.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ORDERS SECTION ===== -->
+  <section id="orders-section" class="faq-section" data-category="orders">
+    <div class="section-title">
+      <i class='bx bx-package'></i>
+      <h2>Orders</h2>
+    </div>
+    
+    <div class="faq-grid">
+      <div class="faq-item">
+        <div class="faq-question">
+          <span><i class='bx bx-map-pin'></i> How do I track my order?</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="faq-answer">
+          <div class="answer-content">
+            <p>You can track your order in two ways:</p>
+            <ol>
+              <li>Log in to your account and go to "My Orders"</li>
+              <li>Check the tracking link sent via SMS/email</li>
+            </ol>
+            <p>You'll receive updates at every stage: confirmed, packed, out for delivery, delivered.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span><i class='bx bx-edit'></i> Can I modify or cancel my order?</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="faq-answer">
+          <div class="answer-content">
+            <p><strong>Order modifications:</strong></p>
+            <ul>
+              <li><strong>Within 30 minutes:</strong> Contact support to modify/cancel</li>
+              <li><strong>After 30 minutes:</strong> Order may already be processed</li>
+              <li><strong>Once shipped:</strong> Cannot be modified</li>
+            </ul>
+            <p>Contact us immediately via WhatsApp or phone for changes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ACCOUNT SECTION ===== -->
+  <section id="account-section" class="faq-section" data-category="account">
+    <div class="section-title">
+      <i class='bx bx-user'></i>
+      <h2>Account</h2>
+    </div>
+    
+    <div class="faq-grid">
+      <div class="faq-item">
+        <div class="faq-question">
+          <span><i class='bx bx-user-plus'></i> How do I create an account?</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="faq-answer">
+          <div class="answer-content">
+            <p>Click "Sign Up" in the top menu. You can register with:</p>
+            <ul>
+              <li>Email address and password</li>
+              <li>Google account (coming soon)</li>
+            </ul>
+            <p>Creating an account lets you track orders, save addresses, and get personalized offers.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span><i class='bx bx-key'></i> Forgot my password</span>
+          <i class='bx bx-chevron-down'></i>
+        </div>
+        <div class="faq-answer">
+          <div class="answer-content">
+            <p>Click "Forgot Password" on the login page. We'll send a reset link to your email.</p>
+            <p>If you don't receive it within 5 minutes, check your spam folder.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Info Box -->
+  <div class="info-box">
+    <i class='bx bx-info-circle'></i>
+    <div class="info-box-content">
+      <h3>Free Delivery in Anambra</h3>
+      <p>Orders above ₦15,000 within Anambra qualify for <strong>FREE delivery</strong>.</p>
+      <p>Questions? <a href="support.html">Contact our support team</a></p>
+    </div>
+  </div>
+
+  <!-- Contact Cards -->
+  <div class="contact-cards">
+    <div class="contact-card">
+      <i class='bx bxl-whatsapp'></i>
+      <h4>WhatsApp</h4>
+      <p>Quick responses</p>
+      <a href="https://wa.me/2348012345678">Chat now →</a>
+    </div>
+    <div class="contact-card">
+      <i class='bx bx-phone'></i>
+      <h4>Phone</h4>
+      <p>Mon-Fri, 9am-5pm</p>
+      <a href="tel:+2348012345678">+234 801 234 5678</a>
+    </div>
+    <div class="contact-card">
+      <i class='bx bx-envelope'></i>
+      <h4>Email</h4>
+      <p>24hr response</p>
+      <a href="mailto:support@cheedanstores.com">support@cheedanstores.com</a>
+    </div>
+    <div class="contact-card">
+      <i class='bx bx-chat'></i>
+      <h4>Live Chat</h4>
+      <p>Online now</p>
+      <a href="support.html">Start chat</a>
+    </div>
+  </div>
+
+  <!-- Still have questions -->
+  <div class="still-questions">
+    <i class='bx bx-help-circle'></i>
+    <h3>Still have questions?</h3>
+    <p>Can't find what you're looking for? Our support team is here to help.</p>
+    <a href="support.html" class="contact-btn">
+      <i class='bx bx-message-detail'></i> Contact Support
+    </a>
+  </div>
+
+</div>
+
+<script>
+// Back button
+document.getElementById("goBack").addEventListener("click", () => {
+  history.back();
+});
+
+// FAQ Accordion
+document.querySelectorAll('.faq-question').forEach(question => {
+  question.addEventListener('click', () => {
+    const item = question.parentElement;
+    const wasActive = item.classList.contains('active');
+    
+    // Close all other items
+    document.querySelectorAll('.faq-item').forEach(faq => {
+      faq.classList.remove('active');
+    });
+    
+    // Toggle current
+    if (!wasActive) {
+      item.classList.add('active');
+    }
+  });
+});
+
+// Category Tabs
+const tabs = document.querySelectorAll('.category-tab');
+const sections = document.querySelectorAll('.faq-section');
+const searchInput = document.getElementById('searchInput');
+const searchBtn = document.getElementById('searchBtn');
+const noResults = document.getElementById('noResults');
+const clearSearch = document.getElementById('clearSearch');
+
+// Filter by category
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    
+    const category = tab.dataset.category;
+    
+    if (category === 'all') {
+      sections.forEach(section => {
+        section.style.display = 'block';
+      });
+    } else {
+      sections.forEach(section => {
+        if (section.dataset.category === category) {
+          section.style.display = 'block';
+        } else {
+          section.style.display = 'none';
+        }
+      });
+    }
+    
+    searchInput.value = '';
+    noResults.style.display = 'none';
+  });
+});
+
+// Search functionality
+function performSearch() {
+  const searchTerm = searchInput.value.toLowerCase().trim();
+  
+  if (!searchTerm) {
+    sections.forEach(section => section.style.display = 'block');
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.style.display = 'block';
+    });
+    noResults.style.display = 'none';
+    return;
+  }
+  
+  let hasResults = false;
+  
+  sections.forEach(section => {
+    let sectionHasResults = false;
+    const items = section.querySelectorAll('.faq-item');
+    
+    items.forEach(item => {
+      const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+      const answer = item.querySelector('.answer-content').textContent.toLowerCase();
+      
+      if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+        item.style.display = 'block';
+        sectionHasResults = true;
+        hasResults = true;
+      } else {
+        item.style.display = 'none';
+      }
+    });
+    
+    section.style.display = sectionHasResults ? 'block' : 'none';
+  });
+  
+  noResults.style.display = hasResults ? 'none' : 'block';
+}
+
+searchBtn.addEventListener('click', performSearch);
+searchInput.addEventListener('keyup', (e) => {
+  if (e.key === 'Enter') performSearch();
+});
+
+clearSearch.addEventListener('click', () => {
+  searchInput.value = '';
+  performSearch();
+  
+  tabs.forEach(t => t.classList.remove('active'));
+  document.querySelector('[data-category="all"]').classList.add('active');
+  
+  sections.forEach(section => {
+    section.style.display = 'block';
+  });
+});
+</script>
+
+</body>
+</html>
