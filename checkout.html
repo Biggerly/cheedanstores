@@ -63,6 +63,12 @@ textarea{resize:none;height:90px}
   gap:10px;
   align-items:center;
   font-size:14px;
+  padding:8px 0;
+  border-bottom:1px solid #f1f5f9;
+}
+
+.order-item:last-child{
+  border-bottom:none;
 }
 
 .order-item img{
@@ -77,11 +83,13 @@ textarea{resize:none;height:90px}
   justify-content:space-between;
   font-size:14px;
   margin-top:8px;
+  padding:4px 0;
 }
 
 .total{
   font-weight:700;
   color:#16a34a;
+  font-size:16px;
 }
 
 .place-btn{
@@ -93,25 +101,272 @@ textarea{resize:none;height:90px}
   color:#fff;
   font-weight:600;
   cursor:pointer;
-  margin-top:12px;
+  margin-top:16px;
+  transition:all 0.2s;
+}
+
+.place-btn:hover{
+  background:#15803d;
+}
+
+.place-btn:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
 }
 
 .empty{
   text-align:center;
-  padding:40px 10px;
+  padding:60px 20px;
   color:#64748b;
+  background:#fff;
+  border:1px dashed #e5e7eb;
+  border-radius:16px;
+}
+
+.empty a{
+  color:#16a34a;
+  text-decoration:none;
+  font-weight:600;
+  display:inline-block;
+  margin-top:12px;
 }
 
 body{
-  background:
-    linear-gradient(0deg, rgba(0,0,0,0.015), rgba(0,0,0,0.015)),
-    #faf9f6;
+  background: linear-gradient(0deg, rgba(0,0,0,0.015), rgba(0,0,0,0.015)), #faf9f6;
+}
+
+/* Header styling */
+.back-link{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:16px;
+  color:#16a34a;
+  text-decoration:none;
+  font-size:14px;
+}
+
+/* Payment methods */
+.payment-methods{
+  display:flex;
+  gap:12px;
+  margin:16px 0 8px;
+  flex-wrap:wrap;
+}
+
+.payment-option{
+  flex:1;
+  min-width:120px;
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  padding:12px;
+  text-align:center;
+  cursor:pointer;
+  background:#fff;
+  transition:all 0.2s;
+}
+
+.payment-option.selected{
+  border-color:#16a34a;
+  background:#f0fdf4;
+}
+
+.payment-option i{
+  font-size:24px;
+  color:#16a34a;
+  margin-bottom:4px;
+}
+
+.payment-option span{
+  font-size:13px;
+  font-weight:500;
+  display:block;
+}
+
+/* Paystack badge */
+.paystack-badge{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#f1f5f9;
+  padding:8px 12px;
+  border-radius:8px;
+  margin-top:12px;
+  font-size:12px;
+  color:#475569;
+}
+
+.paystack-badge img{
+  height:20px;
+}
+
+/* ===== CUSTOM ALERT MODAL ===== */
+.custom-alert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.custom-alert.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.alert-box {
+  background: #fff;
+  border-radius: 24px;
+  padding: 32px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+  border: 1px solid rgba(22, 163, 74, 0.2);
+}
+
+.custom-alert.show .alert-box {
+  transform: scale(1);
+}
+
+.alert-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f0fdf4;
+}
+
+.alert-icon i {
+  font-size: 48px;
+  color: #16a34a;
+}
+
+.alert-icon.warning i {
+  color: #f59e0b;
+}
+
+.alert-icon.error i {
+  color: #ef4444;
+}
+
+.alert-icon.info i {
+  color: #3b82f6;
+}
+
+.alert-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #022c22;
+  margin-bottom: 8px;
+}
+
+.alert-message {
+  font-size: 15px;
+  color: #475569;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.alert-order-number {
+  background: #f1f5f9;
+  padding: 12px;
+  border-radius: 12px;
+  margin: 16px 0;
+  font-size: 14px;
+  color: #0f172a;
+  border: 1px dashed #16a34a;
+}
+
+.alert-order-number strong {
+  color: #16a34a;
+  font-size: 16px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.alert-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.alert-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alert-btn-primary {
+  background: #16a34a;
+  color: #fff;
+  flex: 2;
+  justify-content: center;
+}
+
+.alert-btn-primary:hover {
+  background: #15803d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+.alert-btn-secondary {
+  background: #f1f5f9;
+  color: #475569;
+  flex: 1;
+  justify-content: center;
+}
+
+.alert-btn-secondary:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Loading spinner for button */
+.btn-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 </style>
 </head>
 <body>
 
 <div class="page">
+
+  <a href="cart.html" class="back-link">
+    <i class='bx bx-arrow-back'></i> Back to cart
+  </a>
 
   <h2>Checkout</h2>
 
@@ -122,50 +377,82 @@ body{
     <div class="row">
       <div>
         <label>Full name</label>
-        <input id="name">
+        <input id="name" placeholder="John Doe">
       </div>
 
       <div>
         <label>Phone number</label>
-        <input id="phone">
+        <input id="phone" placeholder="08012345678">
+      </div>
+
+      <div>
+        <label>Email (for receipt)</label>
+        <input id="email" type="email" placeholder="john@example.com">
       </div>
 
       <div>
         <label>City</label>
-        <input id="city" placeholder="Anambra">
+        <input id="city" placeholder="Anambra" value="Anambra">
       </div>
 
       <div>
         <label>Area / Town</label>
-        <input id="area">
+        <input id="area" placeholder="Awka">
       </div>
     </div>
 
     <div style="margin-top:10px">
       <label>Delivery address</label>
-      <textarea id="address"></textarea>
+      <textarea id="address" placeholder="House number, street name..."></textarea>
     </div>
   </div>
 
   <!-- order -->
   <div class="card">
-    <h3 style="margin-bottom:10px">Your order</h3>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+      <h3 style="margin-bottom:0;">Your order</h3>
+      <span id="itemCount" style="background:#f1f5f9; padding:4px 12px; border-radius:999px; font-size:12px; color:#475569;">0 items</span>
+    </div>
+    
     <div id="orderList"></div>
 
-    <div class="summary-line">
-  <span>Subtotal</span>
-  <span id="subTotal">₦0</span>
-</div>
+    <div style="margin-top:16px; border-top:1px solid #e5e7eb; padding-top:12px;">
+      <div class="summary-line">
+        <span>Subtotal</span>
+        <span id="subTotal">₦0</span>
+      </div>
 
-<div class="summary-line">
-  <span>Delivery</span>
-  <span id="deliveryFee">₦0</span>
-</div>
+      <div class="summary-line">
+        <span>Delivery fee</span>
+        <span id="deliveryFee">₦0</span>
+      </div>
 
-<div class="summary-line">
-  <strong>Total</strong>
-  <strong id="orderTotal" class="total">₦0</strong>
-</div>
+      <div class="summary-line total">
+        <strong>Total</strong>
+        <strong id="orderTotal">₦0</strong>
+      </div>
+    </div>
+
+    <!-- Payment Method Selection -->
+    <div style="margin:16px 0 8px;">
+      <h4 style="margin-bottom:8px;">Payment method</h4>
+      <div class="payment-methods">
+        <div class="payment-option selected" id="paystackOption">
+          <i class='bx bx-credit-card'></i>
+          <span>Pay with Card</span>
+        </div>
+        <div class="payment-option" id="cashOption">
+          <i class='bx bx-money'></i>
+          <span>Pay on Delivery</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paystack Badge -->
+    <div class="paystack-badge">
+      <img src="https://paystack.com/assets/img/logo.svg" alt="Paystack">
+      <span>Secured by Paystack • Card, Bank Transfer, USSD</span>
+    </div>
 
     <button class="place-btn" id="placeOrder">
       Place order
@@ -173,122 +460,511 @@ body{
   </div>
 
   <div id="emptyState" class="empty" hidden>
-    Your cart is empty.<br>
-    <a href="cart.html">Go back to cart</a>
+    <i class='bx bx-cart' style="font-size:48px; color:#94a3b8;"></i>
+    <h3 style="margin:12px 0;">Your cart is empty</h3>
+    <p>Add some items to your cart before checkout.</p>
+    <a href="index.html">Continue shopping</a>
   </div>
 
 </div>
 
+<!-- Custom Alert Modal -->
+<div id="customAlert" class="custom-alert">
+  <div class="alert-box">
+    <div class="alert-icon" id="alertIcon">
+      <i class='bx bx-check-circle'></i>
+    </div>
+    <h3 class="alert-title" id="alertTitle">Order Confirmed!</h3>
+    <p class="alert-message" id="alertMessage">Your order has been placed successfully.</p>
+    <div class="alert-order-number" id="alertOrderNumber">
+      <strong>Order #ORD-12345678</strong>
+      <span>Thank you for shopping with us!</span>
+    </div>
+    <div class="alert-buttons">
+      <button class="alert-btn alert-btn-primary" id="alertPrimaryBtn">
+        <i class='bx bx-package'></i> View Order
+      </button>
+      <button class="alert-btn alert-btn-secondary" id="alertSecondaryBtn">
+        <i class='bx bx-home'></i> Home
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Boxicons -->
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<!-- Paystack Library -->
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
-function getCart(){
-  return JSON.parse(localStorage.getItem("cart")) || [];
+// ========== FIREBASE CONFIG ==========
+const firebaseConfig = {
+  apiKey: "AIzaSyBvoWHr8Ctnzogdu756BpmSjWtmA9l-rlE",
+  authDomain: "cheedan.firebaseapp.com",
+  projectId: "cheedan",
+  storageBucket: "cheedan.firebasestorage.app",
+  messagingSenderId: "445764602981",
+  appId: "1:445764602981:web:5e4b5bfbb507882fd28a8c",
+  measurementId: "G-R2NCH9TRTP"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// ========== CUSTOM ALERT FUNCTION ==========
+function showAlert({
+  title = "Order Confirmed!",
+  message = "Your order has been placed successfully.",
+  orderNumber = "",
+  icon = "check-circle",
+  iconColor = "success",
+  primaryBtnText = "View Order",
+  secondaryBtnText = "Home",
+  primaryAction = null,
+  secondaryAction = null
+}) {
+  const modal = document.getElementById('customAlert');
+  const iconEl = document.getElementById('alertIcon');
+  const titleEl = document.getElementById('alertTitle');
+  const messageEl = document.getElementById('alertMessage');
+  const orderNumberEl = document.getElementById('alertOrderNumber');
+  const primaryBtn = document.getElementById('alertPrimaryBtn');
+  const secondaryBtn = document.getElementById('alertSecondaryBtn');
+
+  // Set icon
+  iconEl.innerHTML = `<i class='bx bx-${icon}'></i>`;
+  iconEl.className = 'alert-icon';
+  if (iconColor === 'warning') iconEl.classList.add('warning');
+  else if (iconColor === 'error') iconEl.classList.add('error');
+  else if (iconColor === 'info') iconEl.classList.add('info');
+
+  // Set content
+  titleEl.textContent = title;
+  messageEl.textContent = message;
+  
+  if (orderNumber) {
+    orderNumberEl.innerHTML = `
+      <strong>Order #${orderNumber}</strong>
+      <span>Thank you for shopping with us!</span>
+    `;
+    orderNumberEl.style.display = 'block';
+  } else {
+    orderNumberEl.style.display = 'none';
+  }
+
+  // Set buttons
+  primaryBtn.innerHTML = `<i class='bx bx-${icon === 'check-circle' ? 'package' : 'check-circle'}'></i> ${primaryBtnText}`;
+  secondaryBtn.innerHTML = `<i class='bx bx-home'></i> ${secondaryBtnText}`;
+
+  // Set actions
+  primaryBtn.onclick = () => {
+    modal.classList.remove('show');
+    if (primaryAction) primaryAction();
+  };
+  
+  secondaryBtn.onclick = () => {
+    modal.classList.remove('show');
+    if (secondaryAction) secondaryAction();
+  };
+
+  // Show modal
+  modal.classList.add('show');
 }
 
-const fields = ["name","phone","city","area","address"];
+// ========== CART FUNCTIONS ==========
+function getCart(){
+  try {
+    return JSON.parse(localStorage.getItem("cart")) || [];
+  } catch(e) {
+    return [];
+  }
+}
+
+// ========== DELIVERY INFO ==========
+const fields = ["name","phone","email","city","area","address"];
 
 function loadDelivery(){
   const data = JSON.parse(localStorage.getItem("deliveryInfo") || "{}");
   fields.forEach(id=>{
-    if(data[id]) document.getElementById(id).value = data[id];
+    const el = document.getElementById(id);
+    if(el && data[id]) el.value = data[id];
   });
 }
 
 fields.forEach(id=>{
   const el = document.getElementById(id);
-  el.addEventListener("input", ()=>{
-    const data = JSON.parse(localStorage.getItem("deliveryInfo") || "{}");
-    data[id] = el.value;
-    localStorage.setItem("deliveryInfo", JSON.stringify(data));
-  });
+  if(el){
+    el.addEventListener("input", ()=>{
+      const data = JSON.parse(localStorage.getItem("deliveryInfo") || "{}");
+      data[id] = el.value;
+      localStorage.setItem("deliveryInfo", JSON.stringify(data));
+      renderCheckout();
+    });
+  }
 });
 
-function renderCheckout(){
+// ========== DELIVERY FEE CALCULATION ==========
+function calculateDeliveryFee(city, cart) {
+  const cityLower = (city || "").toLowerCase();
+  const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.qty || 1)), 0);
+  
+  if(cityLower.includes("anambra") && subtotal >= 15000) {
+    return 0;
+  }
+  return 1500;
+}
 
+// ========== RENDER CHECKOUT ==========
+function renderCheckout(){
   const list = document.getElementById("orderList");
+  const subTotalEl = document.getElementById("subTotal");
+  const deliveryEl = document.getElementById("deliveryFee");
   const totalEl = document.getElementById("orderTotal");
   const empty = document.getElementById("emptyState");
+  const itemCountEl = document.getElementById("itemCount");
+  const cards = document.querySelectorAll(".card");
 
   const cart = getCart();
 
   if(!cart.length){
     empty.hidden = false;
-    document.querySelectorAll(".card").forEach(c=>c.style.display="none");
+    cards.forEach(c => c.style.display = "none");
     return;
   }
 
+  empty.hidden = true;
+  cards.forEach(c => c.style.display = "block");
+
   let subTotal = 0;
+  let totalItems = 0;
   list.innerHTML = "";
 
-  cart.forEach(item=>{
-
-    subTotal += item.price * item.qty;
+  cart.forEach(item => {
+    const qty = parseInt(item.qty) || 1;
+    const itemTotal = item.price * qty;
+    subTotal += itemTotal;
+    totalItems += qty;
 
     const div = document.createElement("div");
     div.className = "order-item";
     div.innerHTML = `
-      <img src="${item.image}">
-      <div>
-        ${item.name}<br>
-        <small>₦${item.price.toLocaleString()} × ${item.qty}</small>
+      <img src="${item.image || 'https://images.unsplash.com/photo-1586201375761-83865001e31c'}" alt="${item.name}">
+      <div style="flex:1">
+        <div style="display:flex; justify-content:space-between;">
+          <strong>${item.name}</strong>
+          <span>₦${itemTotal.toLocaleString()}</span>
+        </div>
+        <small style="color:#64748b;">₦${item.price.toLocaleString()} × ${qty}</small>
       </div>
     `;
 
     list.appendChild(div);
   });
 
-  const city = (document.getElementById("city").value || "").toLowerCase();
+  if(itemCountEl) {
+    itemCountEl.textContent = totalItems + (totalItems === 1 ? " item" : " items");
+  }
 
-let delivery = 0;
+  const city = document.getElementById("city")?.value || "";
+  const delivery = calculateDeliveryFee(city, cart);
 
-if(city.includes("anambra") && subTotal >= 15000){
-  delivery = 0;
-}else{
-  delivery = 1500;
+  subTotalEl.textContent = "₦" + subTotal.toLocaleString();
+  deliveryEl.textContent = "₦" + delivery.toLocaleString();
+  totalEl.textContent = "₦" + (subTotal + delivery).toLocaleString();
 }
 
-document.getElementById("subTotal").textContent =
-  "₦" + subTotal.toLocaleString();
+// ========== PAYMENT METHOD SELECTION ==========
+let paymentMethod = 'paystack';
 
-document.getElementById("deliveryFee").textContent =
-  "₦" + delivery.toLocaleString();
+document.getElementById('paystackOption').addEventListener('click', function() {
+  document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+  this.classList.add('selected');
+  paymentMethod = 'paystack';
+});
 
-totalEl.textContent =
-  "₦" + (subTotal + delivery).toLocaleString();
+document.getElementById('cashOption').addEventListener('click', function() {
+  document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+  this.classList.add('selected');
+  paymentMethod = 'cash';
+});
+
+// ========== SAVE ORDER TO FIREBASE ==========
+async function saveOrderToFirebase(orderData, user) {
+  try {
+    const docRef = await db.collection("orders").add({
+      userId: user.uid,
+      userEmail: user.email,
+      orderNumber: orderData.id,
+      customerName: orderData.customer.name,
+      customerPhone: orderData.customer.phone,
+      customerEmail: orderData.customer.email,
+      customerCity: orderData.customer.city,
+      customerArea: orderData.customer.area,
+      customerAddress: orderData.customer.address,
+      items: orderData.items.map(item => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        qty: item.qty,
+        image: item.image
+      })),
+      subtotal: orderData.subtotal,
+      shipping: orderData.deliveryFee,
+      total: orderData.total,
+      paymentMethod: orderData.paymentMethod,
+      status: orderData.status,
+      notes: orderData.notes || "",
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    return docRef.id;
+  } catch (error) {
+    console.error("Error saving order to Firebase:", error);
+    throw error;
+  }
 }
 
-document.getElementById("placeOrder").addEventListener("click", ()=>{
+// ========== PAYSTACK PAYMENT HANDLER ==========
+function payWithPaystack(order, user) {
+  const handler = PaystackPop.setup({
+    key: PAYSTACK_PUBLIC_KEY,
+    email: document.getElementById('email').value.trim(),
+    amount: order.total * 100,
+    currency: 'NGN',
+    ref: 'ORD-' + Date.now().toString().slice(-8) + '-' + Math.floor(Math.random() * 1000),
+    metadata: {
+      custom_fields: [
+        {
+          display_name: "Order ID",
+          variable_name: "order_id",
+          value: order.id
+        },
+        {
+          display_name: "Customer Name",
+          variable_name: "customer_name",
+          value: order.customer.name
+        },
+        {
+          display_name: "Phone",
+          variable_name: "customer_phone",
+          value: order.customer.phone
+        }
+      ]
+    },
+    callback: async function(response) {
+      order.status = 'paid';
+      order.paymentRef = response.reference;
+      order.paidAt = new Date().toISOString();
+      
+      try {
+        await saveOrderToFirebase(order, user);
+        
+        localStorage.removeItem("cart");
+        localStorage.removeItem("deliveryInfo");
+        
+        showAlert({
+          title: "Payment Successful! 🎉",
+          message: "Your order has been confirmed and payment received.",
+          orderNumber: order.id,
+          icon: "check-circle",
+          iconColor: "success",
+          primaryBtnText: "View Order",
+          secondaryBtnText: "Home",
+          primaryAction: () => { window.location.href = "orders.html"; },
+          secondaryAction: () => { window.location.href = "index.html"; }
+        });
+        
+      } catch (error) {
+        showAlert({
+          title: "Order Saved!",
+          message: "Your order was saved but we couldn't process payment. Please contact support.",
+          orderNumber: order.id,
+          icon: "error",
+          iconColor: "error",
+          primaryBtnText: "View Order",
+          secondaryBtnText: "Home",
+          primaryAction: () => { window.location.href = "orders.html"; },
+          secondaryAction: () => { window.location.href = "index.html"; }
+        });
+      }
+    },
+    onClose: function() {
+      const btn = document.getElementById('placeOrder');
+      btn.disabled = false;
+      btn.textContent = 'Place order';
+      
+      showAlert({
+        title: "Payment Cancelled",
+        message: "You can complete your order anytime from your cart.",
+        icon: "info-circle",
+        iconColor: "info",
+        primaryBtnText: "Continue Shopping",
+        secondaryBtnText: "Cart",
+        primaryAction: () => { window.location.href = "shop.html"; },
+        secondaryAction: () => { window.location.href = "cart.html"; }
+      });
+    }
+  });
+  
+  handler.openIframe();
+}
+
+// ========== PLACE ORDER ==========
+document.getElementById("placeOrder").addEventListener("click", async function() {
+  const user = auth.currentUser;
+  if (!user) {
+    showAlert({
+      title: "Not Logged In",
+      message: "Please log in to place your order.",
+      icon: "user-circle",
+      iconColor: "info",
+      primaryBtnText: "Log In",
+      secondaryBtnText: "Cancel",
+      primaryAction: () => { window.location.href = "login.html"; },
+      secondaryAction: () => {}
+    });
+    return;
+  }
 
   const name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
+  const email = document.getElementById("email").value.trim();
   const city = document.getElementById("city").value.trim();
   const area = document.getElementById("area").value.trim();
   const address = document.getElementById("address").value.trim();
 
-  if(!name || !phone || !address){
-    alert("Please fill your delivery details");
+  if(!name || !phone || !email || !city || !area || !address){
+    showAlert({
+      title: "Missing Information",
+      message: "Please fill in all delivery details.",
+      icon: "error",
+      iconColor: "error",
+      primaryBtnText: "OK",
+      secondaryBtnText: "Cancel",
+      primaryAction: () => {},
+      secondaryAction: () => {}
+    });
     return;
   }
 
-  const order = {
-    customer:{ name, phone, city, area, address },
-    items: getCart(),
-    createdAt: new Date().toISOString()
-  };
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    showAlert({
+      title: "Invalid Email",
+      message: "Please enter a valid email address.",
+      icon: "error",
+      iconColor: "error",
+      primaryBtnText: "OK",
+      secondaryBtnText: "Cancel",
+      primaryAction: () => {},
+      secondaryAction: () => {}
+    });
+    return;
+  }
 
-  const orders = JSON.parse(localStorage.getItem("orders") || "[]");
-orders.unshift(order);
-localStorage.setItem("orders", JSON.stringify(orders));
+  const cleanPhone = phone.replace(/\s+/g, '');
+  if(!/^[0-9]{11}$/.test(cleanPhone) && !/^\+234[0-9]{10}$/.test(cleanPhone)){
+    showAlert({
+      title: "Invalid Phone",
+      message: "Please enter a valid Nigerian phone number (11 digits or +234 format)",
+      icon: "error",
+      iconColor: "error",
+      primaryBtnText: "OK",
+      secondaryBtnText: "Cancel",
+      primaryAction: () => {},
+      secondaryAction: () => {}
+    });
+    return;
+  }
 
-localStorage.removeItem("cart");
+  const cart = getCart();
+  if(!cart.length){
+    showAlert({
+      title: "Empty Cart",
+      message: "Your cart is empty. Add some items first!",
+      icon: "cart",
+      iconColor: "info",
+      primaryBtnText: "Shop Now",
+      secondaryBtnText: "Cancel",
+      primaryAction: () => { window.location.href = "shop.html"; },
+      secondaryAction: () => {}
+    });
+    return;
+  }
 
-alert("Order placed successfully!");
+  const btn = this;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="btn-spinner"></span> Processing...';
 
-  location.href = "index.html";
+  try {
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.qty || 1)), 0);
+    const deliveryFee = calculateDeliveryFee(city, cart);
+    
+    const order = {
+      id: "ORD-" + Date.now().toString().slice(-8),
+      customer: { name, phone, email, city, area, address },
+      items: cart,
+      subtotal: subtotal,
+      deliveryFee: deliveryFee,
+      total: subtotal + deliveryFee,
+      createdAt: new Date().toISOString(),
+      status: paymentMethod === 'paystack' ? 'pending_payment' : 'pending',
+      paymentMethod: paymentMethod,
+      notes: ""
+    };
+
+    if(paymentMethod === 'paystack') {
+      await payWithPaystack(order, user);
+    } else {
+      await saveOrderToFirebase(order, user);
+      
+      localStorage.removeItem("cart");
+      localStorage.removeItem("deliveryInfo");
+      
+      showAlert({
+        title: "Order Confirmed! 🎉",
+        message: "Your order has been placed. You'll pay on delivery.",
+        orderNumber: order.id,
+        icon: "check-circle",
+        iconColor: "success",
+        primaryBtnText: "View Order",
+        secondaryBtnText: "Home",
+        primaryAction: () => { window.location.href = "orders.html"; },
+        secondaryAction: () => { window.location.href = "index.html"; }
+      });
+    }
+    
+  } catch (error) {
+    console.error("Error placing order:", error);
+    showAlert({
+      title: "Oops! Something went wrong",
+      message: "We couldn't place your order. Please try again.",
+      icon: "error",
+      iconColor: "error",
+      primaryBtnText: "Try Again",
+      secondaryBtnText: "Cancel",
+      primaryAction: () => { btn.disabled = false; btn.innerHTML = 'Place order'; },
+      secondaryAction: () => { btn.disabled = false; btn.innerHTML = 'Place order'; }
+    });
+  }
 });
 
-renderCheckout();
-loadDelivery();
+// ========== PAYSTACK PUBLIC KEY ==========
+const PAYSTACK_PUBLIC_KEY = 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'; // Replace with your actual key
+
+// ========== INITIALIZE ==========
+window.addEventListener('load', function() {
+  renderCheckout();
+  loadDelivery();
+});
 </script>
 
 </body>
