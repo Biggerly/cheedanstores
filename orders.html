@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Orders – Cheedan Stores</title>
+
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:#f8fafc;
+  padding:16px;
+}
+
+.header{
+  background:#fff;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.header-inner{
+  max-width:900px;
+  margin:auto;
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.header-inner a{
+  text-decoration:none;
+  color:#16a34a;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+}
+
+.breadcrumb{
+  max-width:900px;
+  margin:10px auto 0;
+  padding:0 16px;
+  font-size:13px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:#64748b;
+}
+
+.breadcrumb a{
+  text-decoration:none;
+  color:#16a34a;
+  font-weight:500;
+}
+
+.breadcrumb i{
+  font-size:14px;
+  color:#94a3b8;
+}
+
+.breadcrumb span{
+  color:#0f172a;
+  font-weight:600;
+}
+
+.page{
+  max-width:900px;
+  margin:auto;
+  margin-top:16px;
+}
+
+h2{
+  margin-bottom:14px;
+  color:#022c22;
+}
+
+.order-card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:14px;
+}
+
+.order-head{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  color:#475569;
+  margin-bottom:10px;
+}
+
+.order-items{
+  display:grid;
+  gap:10px;
+}
+
+.item{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  font-size:14px;
+  padding:8px 0;
+  border-bottom:1px solid #f1f5f9;
+}
+
+.item:last-child{
+  border-bottom:none;
+}
+
+.item img{
+  width:44px;
+  height:44px;
+  border-radius:8px;
+  object-fit:cover;
+}
+
+.total{
+  margin-top:10px;
+  font-size:14px;
+  font-weight:700;
+  color:#16a34a;
+}
+
+.address{
+  margin-top:8px;
+  font-size:13px;
+  color:#475569;
+  padding:8px;
+  background:#f8fafc;
+  border-radius:8px;
+}
+
+.empty{
+  text-align:center;
+  padding:60px 10px;
+  color:#64748b;
+}
+
+.empty a{
+  color:#16a34a;
+  text-decoration:none;
+  font-weight:600;
+}
+
+body{
+  background:
+    linear-gradient(0deg, rgba(0,0,0,0.015), rgba(0,0,0,0.015)),
+    #faf9f6;
+}
+
+.hidden{display:none;}
+
+.order-number{
+  font-size:14px;
+  font-weight:600;
+  color:#022c22;
+}
+
+.payment-badge{
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:4px;
+  font-size:11px;
+  font-weight:600;
+  margin-left:8px;
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="account.html"><i class='bx bx-arrow-back'></i></a>
+    <strong>My Orders</strong>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="index.html">Home</a>
+  <i class='bx bx-chevron-right'></i>
+  <a href="account.html">Account</a>
+  <i class='bx bx-chevron-right'></i>
+  <span>Orders</span>
+</nav>
+
+<div class="page">
+  <h2>My Orders</h2>
+  <div id="ordersList"></div>
+  <div id="emptyState" class="empty" hidden>
+    <i class='bx bx-package' style="font-size:48px; color:#94a3b8;"></i>
+    <h3 style="margin:16px 0 8px;">No orders yet</h3>
+    <p style="color:#64748b; margin-bottom:24px;">Looks like you haven't placed any orders.</p>
+    <a href="index.html" style="background:#16a34a; color:white; padding:12px 24px; border-radius:999px; text-decoration:none; font-weight:600; display:inline-block;">Start Shopping</a>
+  </div>
+</div>
+
+<!-- Loading Spinner -->
+<div id="loadingSpinner" class="hidden" style="text-align:center; padding:40px;">
+  <div class="spinner"></div>
+</div>
+
+<style>
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e5e7eb;
+  border-top: 4px solid #16a34a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+@keyframes spin { 
+  0% { transform: rotate(0deg); } 
+  100% { transform: rotate(360deg); } 
+}
+</style>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBvoWHr8Ctnzogdu756BpmSjWtmA9l-rlE",
+  authDomain: "cheedan.firebaseapp.com",
+  projectId: "cheedan",
+  storageBucket: "cheedan.firebasestorage.app",
+  messagingSenderId: "445764602981",
+  appId: "1:445764602981:web:5e4b5bfbb507882fd28a8c",
+  measurementId: "G-R2NCH9TRTP"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const ordersList = document.getElementById("ordersList");
+const emptyState = document.getElementById("emptyState");
+const loadingSpinner = document.getElementById("loadingSpinner");
+
+// ========== SAMPLE ORDER ITEMS (since your order doesn't have items array) ==========
+// This is temporary - you need to add items to your orders in Firebase
+function getSampleItems() {
+  return [
+    {
+      name: "Sample Product",
+      price: 50000,
+      qty: 2,
+      image: "https://images.unsplash.com/photo-1586201375761-83865001e31c"
+    },
+    {
+      name: "Another Product",
+      price: 46000,
+      qty: 2,
+      image: "https://images.unsplash.com/photo-1585386959984-a41552231693"
+    }
+  ];
+}
+
+// ========== RENDER ORDERS FUNCTION ==========
+function renderOrders(orders){
+  ordersList.innerHTML = "";
+  
+  if(!orders || !orders.length){
+    emptyState.hidden = false;
+    return;
+  }
+  
+  emptyState.hidden = true;
+
+  // Status colors mapping
+  const statusColors = {
+    pending: '#f59e0b',
+    pending_payment: '#f59e0b',
+    processing: '#3b82f6',
+    shipped: '#8b5cf6',
+    delivered: '#10b981',
+    cancelled: '#ef4444',
+    paid: '#10b981'
+  };
+
+  // Status display names
+  const statusNames = {
+    pending: 'Pending',
+    pending_payment: 'Awaiting Payment',
+    processing: 'Processing',
+    shipped: 'Shipped',
+    delivered: 'Delivered',
+    cancelled: 'Cancelled',
+    paid: 'Paid'
+  };
+
+  orders.forEach(order => {
+    const card = document.createElement("div");
+    card.className = "order-card";
+
+    let itemsHTML = "";
+    let total = 0;
+
+    // Get items - either from order.items or use sample items
+    const items = order.items && order.items.length ? order.items : getSampleItems();
+    
+    // Calculate total from items
+    items.forEach(i => {
+      const qty = parseInt(i.qty) || 1;
+      const price = parseFloat(i.price) || 0;
+      total += price * qty;
+      
+      itemsHTML += `
+        <div class="item">
+          <img src="${i.image || 'https://images.unsplash.com/photo-1586201375761-83865001e31c'}" alt="${i.name || 'Product'}">
+          <div>
+            <strong>${i.name || 'Product'}</strong><br>
+            <small>₦${price.toLocaleString()} × ${qty}</small>
+          </div>
+        </div>
+      `;
+    });
+
+    // Handle date safely - YOUR ORDER HAS createdAt FIELD
+    let dateDisplay = 'Date not available';
+    try {
+      const date = order.createdAt?.toDate ? order.createdAt.toDate() : new Date(order.createdAt || Date.now());
+      dateDisplay = `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
+    } catch (e) {
+      console.error('Date parsing error:', e);
+    }
+    
+    const status = order.status || 'pending';
+    const statusColor = statusColors[status] || '#94a3b8';
+    const statusName = statusNames[status] || status.toUpperCase();
+    
+    // Use orderNumber if available, otherwise use document ID
+    const orderNumber = order.orderNumber || (order.id ? order.id.slice(-8) : 'N/A');
+
+    // Payment method display
+    const paymentMethod = order.paymentMethod || 'Not specified';
+    const paymentMethodDisplay = paymentMethod === 'cash' ? 'Cash on Delivery' : 
+                                 paymentMethod === 'paystack' ? 'Card Payment' : paymentMethod;
+
+    card.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+        <span class="order-number">Order #${orderNumber}</span>
+        <div>
+          <span style="background:${statusColor}; color:white; padding:4px 12px; border-radius:999px; font-size:11px; font-weight:600;">
+            ${statusName}
+          </span>
+          <span class="payment-badge" style="background:#f1f5f9; color:#475569;">
+            ${paymentMethodDisplay}
+          </span>
+        </div>
+      </div>
+
+      <div class="order-head">
+        <span>Placed on</span>
+        <span>${dateDisplay}</span>
+      </div>
+
+      <div class="order-items">
+        ${itemsHTML || "<small style='color:#64748b;'>No items found</small>"}
+      </div>
+
+      <div class="total">
+        Total: ₦${(order.total || total).toLocaleString()}
+      </div>
+
+      <div class="address">
+        <strong>Delivery to:</strong><br>
+        ${order.customerName || 'N/A'} – ${order.customerPhone || 'N/A'}<br>
+        ${order.customerAddress || 'No address provided'}<br>
+        ${order.notes ? `<small style="color:#f59e0b;">Note: ${order.notes}</small>` : ''}
+      </div>
+    `;
+    
+    ordersList.appendChild(card);
+  });
+}
+
+// ========== LOAD USER ORDERS ==========
+async function loadUserOrders(user) {
+  // Show loading spinner
+  loadingSpinner.classList.remove("hidden");
+  ordersList.innerHTML = "";
+  emptyState.hidden = true;
+
+  try {
+    // Query orders from Firestore
+    const q = query(
+      collection(db, "orders"),
+      where("userId", "==", user.uid),
+      orderBy("createdAt", "desc")
+    );
+
+    const querySnapshot = await getDocs(q);
+    
+    console.log('Found', querySnapshot.size, 'orders'); // Debug log
+    
+    if (querySnapshot.empty) {
+      // No orders found
+      emptyState.hidden = false;
+      ordersList.innerHTML = "";
+    } else {
+      // Map orders with IDs
+      const orders = querySnapshot.docs.map(doc => ({ 
+        id: doc.id, 
+        ...doc.data() 
+      }));
+      
+      console.log('Orders data:', orders); // Debug log to see structure
+      renderOrders(orders);
+    }
+    
+  } catch (error) {
+    console.error("Error loading orders:", error);
+    
+    if (error.code === 'failed-precondition') {
+      emptyState.innerHTML = `
+        <i class='bx bx-error-circle' style="font-size:48px; color:#ef4444;"></i>
+        <h3 style="margin:16px 0 8px;">Database Setup Required</h3>
+        <p style="color:#64748b; margin-bottom:24px;">Please create the required Firebase index. Check console for details.</p>
+        <a href="index.html" style="background:#16a34a; color:white; padding:12px 24px; border-radius:999px; text-decoration:none; font-weight:600; display:inline-block;">Go Home</a>
+      `;
+    } else {
+      emptyState.innerHTML = `
+        <i class='bx bx-error-circle' style="font-size:48px; color:#ef4444;"></i>
+        <h3 style="margin:16px 0 8px;">Error Loading Orders</h3>
+        <p style="color:#64748b; margin-bottom:24px;">${error.message || 'Please try again later.'}</p>
+        <a href="#" onclick="location.reload()" style="background:#16a34a; color:white; padding:12px 24px; border-radius:999px; text-decoration:none; font-weight:600; display:inline-block;">Try Again</a>
+      `;
+    }
+    emptyState.hidden = false;
+    
+  } finally {
+    loadingSpinner.classList.add("hidden");
+  }
+}
+
+// ========== AUTH STATE OBSERVER ==========
+onAuthStateChanged(auth, async user => {
+  if(!user){
+    // User not logged in
+    emptyState.innerHTML = `
+      <i class='bx bx-user-circle' style="font-size:48px; color:#94a3b8;"></i>
+      <h3 style="margin:16px 0 8px;">Please log in</h3>
+      <p style="color:#64748b; margin-bottom:24px;">You need to be logged in to view your orders.</p>
+      <a href="login.html" style="background:#16a34a; color:white; padding:12px 24px; border-radius:999px; text-decoration:none; font-weight:600; display:inline-block;">Log In</a>
+    `;
+    emptyState.hidden = false;
+    ordersList.innerHTML = "";
+    loadingSpinner.classList.add("hidden");
+    return;
+  }
+
+  // User is logged in - load orders
+  await loadUserOrders(user);
+});
+</script>
+
+<!-- Debug info - remove in production -->
+<script>
+// Display the order you showed me for debugging
+window.addEventListener('load', function() {
+  console.log('Looking for your specific order...');
+  
+  // This is just to confirm the order structure
+  const sampleOrder = {
+    createdAt: "February 23, 2026 at 12:49:48 PM UTC+1",
+    customerAddress: "obe street, sapele road rock of ages area",
+    customerName: "Desmond Edward",
+    customerPhone: "09132720329",
+    notes: "at the door",
+    orderNumber: "ORD-260223-0958",
+    paymentMethod: "cash",
+    shipping: 0,
+    status: "pending",
+    subtotal: 192000,
+    tax: 0,
+    total: 192000,
+    userEmail: "bigg3rlylabs@proton.me",
+    userId: "6Esln22LIebrHtQF9DQ0jxtZXmv2"
+  };
+  
+  console.log('Your order structure:', sampleOrder);
+});
+</script>
+
+</body>
+</html>
