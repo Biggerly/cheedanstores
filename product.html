@@ -4,24 +4,53 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Product – Cheedan Stores</title>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{
   font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
   background:#f8fafc;
-  padding:16px;
+  padding:12px;
 }
 
 .page{
-  max-width:900px;
+  max-width:1000px;
   margin:auto;
 }
 
-.breadcrumb{
-  font-size:13px;
+/* Header */
+.header{
+  display:flex;
+  align-items:center;
+  gap:8px;
   margin-bottom:12px;
+}
+
+.back-btn{
+  background:none;
+  border:none;
+  font-size:22px;
+  color:#16a34a;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  padding:6px;
+  border-radius:50%;
+  transition:background 0.2s;
+}
+
+.back-btn:hover{
+  background:#f1f5f9;
+}
+
+.breadcrumb{
+  font-size:12px;
   color:#64748b;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  flex-wrap:wrap;
 }
 
 .breadcrumb a{
@@ -29,74 +58,340 @@ body{
   text-decoration:none;
 }
 
-.card{
+.breadcrumb a:hover{
+  text-decoration:underline;
+}
+
+.breadcrumb i{
+  font-size:14px;
+  color:#94a3b8;
+}
+
+/* Product Card */
+.product-card{
   background:#fff;
   border:1px solid #e5e7eb;
+  border-radius:20px;
+  padding:16px;
+  display:grid;
+  gap:16px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+}
+
+@media(min-width:800px){
+  .product-card{
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+    padding:24px;
+  }
+}
+
+/* Image Gallery */
+.image-section{
+  position:relative;
+}
+
+.main-image{
+  width:100%;
+  height:auto;
+  max-height:350px;
+  object-fit:contain;
   border-radius:16px;
+  border:1px solid #e5e7eb;
+  background:#f1f5f9;
+  transition:transform 0.3s;
+}
+
+@media(min-width:800px){
+  .main-image{
+    max-height:450px;
+  }
+}
+
+.main-image:hover{
+  transform:scale(1.02);
+}
+
+/* Product Info */
+.product-info{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+@media(min-width:800px){
+  .product-info{
+    gap:16px;
+  }
+}
+
+h1{
+  font-size:22px;
+  font-weight:700;
+  color:#022c22;
+  line-height:1.3;
+}
+
+@media(min-width:800px){
+  h1{
+    font-size:28px;
+  }
+}
+
+.price-section{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.price{
+  font-size:24px;
+  font-weight:700;
+  color:#16a34a;
+}
+
+@media(min-width:800px){
+  .price{
+    font-size:32px;
+  }
+}
+
+.old-price{
+  font-size:16px;
+  color:#94a3b8;
+  text-decoration:line-through;
+}
+
+.discount-badge{
+  background:#dc2626;
+  color:#fff;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:600;
+}
+
+.category-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  background:#f1f5f9;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:12px;
+  color:#475569;
+  width:fit-content;
+}
+
+.category-badge i{
+  color:#16a34a;
+  font-size:14px;
+}
+
+/* Description */
+.description{
+  margin:4px 0;
+}
+
+.description h3{
+  font-size:15px;
+  color:#0f172a;
+  margin-bottom:6px;
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+
+.description p{
+  font-size:13px;
+  color:#475569;
+  line-height:1.5;
+}
+
+@media(min-width:800px){
+  .description p{
+    font-size:14px;
+  }
+}
+
+/* Stock Status */
+.stock-status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+}
+
+.in-stock{
+  color:#16a34a;
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+
+.out-of-stock{
+  color:#dc2626;
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+
+/* Quantity Selector */
+.quantity-selector{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:8px 0;
+}
+
+.quantity-selector label{
+  font-size:13px;
+  color:#475569;
+}
+
+.quantity-controls{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  background:#f1f5f9;
+  padding:4px;
+  border-radius:999px;
+}
+
+.qty-btn{
+  width:32px;
+  height:32px;
+  border:none;
+  border-radius:50%;
+  background:#fff;
+  color:#0f172a;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+
+@media(min-width:800px){
+  .qty-btn{
+    width:36px;
+    height:36px;
+    font-size:18px;
+  }
+}
+
+.qty-btn:hover:not(:disabled){
+  background:#16a34a;
+  color:#fff;
+}
+
+.qty-btn:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
+}
+
+.qty-value{
+  font-weight:600;
+  min-width:32px;
+  text-align:center;
+  font-size:15px;
+}
+
+/* Action Buttons */
+.action-buttons{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:8px;
+}
+
+.add-to-cart-btn{
+  flex:2;
+  min-width:160px;
+  border:none;
+  padding:12px 20px;
+  border-radius:999px;
+  background:#16a34a;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  transition:all 0.2s;
+  font-size:14px;
+}
+
+@media(min-width:800px){
+  .add-to-cart-btn{
+    padding:14px 24px;
+    font-size:15px;
+  }
+}
+
+.add-to-cart-btn:hover:not(:disabled){
+  background:#15803d;
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(22,163,74,0.3);
+}
+
+.add-to-cart-btn:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
+}
+
+.add-to-cart-btn i{
+  font-size:18px;
+}
+
+.buy-now-btn{
+  flex:1;
+  min-width:100px;
+  border:1px solid #16a34a;
+  padding:12px 20px;
+  border-radius:999px;
+  background:#fff;
+  color:#16a34a;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+  font-size:14px;
+}
+
+@media(min-width:800px){
+  .buy-now-btn{
+    padding:14px 24px;
+    font-size:15px;
+  }
+}
+
+.buy-now-btn:hover{
+  background:#f0fdf4;
+  transform:translateY(-2px);
+}
+
+/* Skeleton Loading */
+.skeleton-card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:20px;
   padding:16px;
   display:grid;
   gap:16px;
 }
 
 @media(min-width:800px){
-  .card{
+  .skeleton-card{
     grid-template-columns:1fr 1fr;
-    align-items:start;
+    gap:24px;
+    padding:24px;
   }
 }
-
-.img-wrap img{
-  width:100%;
-  height:320px;
-  object-fit:cover;
-  border-radius:12px;
-  border:1px solid #e5e7eb;
-}
-
-h1{
-  font-size:20px;
-  margin-bottom:8px;
-  color:#022c22;
-}
-
-.price{
-  font-size:18px;
-  font-weight:700;
-  color:#16a34a;
-  margin-bottom:12px;
-}
-
-.meta{
-  font-size:13px;
-  color:#64748b;
-  margin-bottom:16px;
-}
-
-.actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.actions button{
-  border:none;
-  padding:12px 16px;
-  border-radius:10px;
-  cursor:pointer;
-  font-size:14px;
-}
-
-.add-btn{
-  background:#16a34a;
-  color:#fff;
-}
-
-.back-btn{
-  background:#f1f5f9;
-  color:#0f172a;
-}
-
-/* skeleton */
 
 .skeleton{
   background:#e5e7eb;
@@ -123,24 +418,127 @@ h1{
   100%{transform:translateX(100%)}
 }
 
-.sk-img{height:320px;}
-.sk-line{height:14px;margin-bottom:10px;border-radius:8px;}
-.sk-line.w60{width:60%}
+.skeleton-image{
+  height:250px;
+  border-radius:16px;
+}
 
-/* empty */
+@media(min-width:800px){
+  .skeleton-image{
+    height:400px;
+  }
+}
 
-.empty{
+.skeleton-line{
+  height:16px;
+  margin-bottom:10px;
+  border-radius:8px;
+}
+
+.skeleton-line.w60{width:60%}
+.skeleton-line.w40{width:40%}
+.skeleton-line.w80{width:80%}
+
+/* Toast Notification */
+.toast{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%) translateY(100px);
+  background:#fff;
+  border-radius:999px;
+  padding:10px 18px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.15);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  z-index:1000;
+  transition:transform 0.3s ease;
+  border-left:4px solid #16a34a;
+  max-width:90%;
+}
+
+@media(min-width:800px){
+  .toast{
+    padding:12px 24px;
+    gap:12px;
+  }
+}
+
+.toast.show{
+  transform:translateX(-50%) translateY(0);
+}
+
+.toast i{
+  font-size:18px;
+  color:#16a34a;
+}
+
+.toast-message{
+  font-size:13px;
+  color:#0f172a;
+}
+
+.toast-view{
+  color:#16a34a;
+  font-weight:600;
+  text-decoration:none;
+  margin-left:4px;
+  font-size:13px;
+  white-space:nowrap;
+}
+
+/* Empty State */
+.empty-state{
   text-align:center;
-  padding:50px 12px;
+  padding:60px 16px;
+  background:#fff;
+  border:1px dashed #e5e7eb;
+  border-radius:20px;
   color:#64748b;
 }
 
-.empty a{
+.empty-state i{
+  font-size:48px;
+  color:#94a3b8;
+  margin-bottom:12px;
+}
+
+.empty-state h3{
+  font-size:18px;
+  color:#022c22;
+  margin-bottom:6px;
+}
+
+.empty-state p{
+  font-size:14px;
+  margin-bottom:20px;
+}
+
+.empty-state a{
   display:inline-block;
-  margin-top:12px;
+  background:#16a34a;
+  color:#fff;
   text-decoration:none;
-  color:#16a34a;
+  padding:10px 20px;
+  border-radius:999px;
   font-weight:600;
+  font-size:14px;
+  transition:all 0.2s;
+}
+
+.empty-state a:hover{
+  background:#15803d;
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(22,163,74,0.3);
+}
+
+body{
+  background:linear-gradient(0deg, rgba(0,0,0,0.015), rgba(0,0,0,0.015)), #faf9f6;
+}
+
+.hidden{
+  display:none !important;
 }
 </style>
 </head>
@@ -148,63 +546,113 @@ h1{
 
 <div class="page">
 
-  <div class="breadcrumb">
-    <a href="index.html">Home</a>
-    ›
-    <span id="bcCat">Product</span>
-  </div>
-
-  <!-- skeleton -->
-  <div id="loader" class="card">
-    <div class="skeleton sk-img"></div>
-    <div>
-      <div class="skeleton sk-line"></div>
-      <div class="skeleton sk-line w60"></div>
-      <div class="skeleton sk-line"></div>
-      <div class="skeleton sk-line w60"></div>
+  <!-- Header with back button -->
+  <div class="header">
+    <button class="back-btn" id="goBack">
+      <i class='bx bx-arrow-back'></i>
+    </button>
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <i class='bx bx-chevron-right'></i>
+      <a href="shop.html" id="breadcrumbShop">Shop</a>
+      <i class='bx bx-chevron-right'></i>
+      <span id="bcCat">Product</span>
     </div>
   </div>
 
-  <!-- product -->
-  <div id="productCard" class="card" hidden>
-    <div class="img-wrap">
-      <img id="pImage" alt="">
-    </div>
-
-    <div>
-      <h1 id="pTitle"></h1>
-      <div class="price" id="pPrice"></div>
-      <div class="meta" id="pCategory"></div>
-
-      <div class="actions">
-        <button
-  class="add-btn"
-  aria-label="Add product to cart"
-  data-id="PRODUCT_ID"
-  data-name="PRODUCT_NAME"
-  data-price="PRODUCT_PRICE"
-  data-image="PRODUCT_IMAGE_URL"
->
-  Add to cart
-</button>
-        <button class="back-btn" id="goBack">Back</button>
+  <!-- Skeleton Loader -->
+  <div id="loader" class="skeleton-card">
+    <div class="skeleton skeleton-image"></div>
+    <div style="padding:4px 0">
+      <div class="skeleton skeleton-line w80"></div>
+      <div class="skeleton skeleton-line w60"></div>
+      <div class="skeleton skeleton-line"></div>
+      <div class="skeleton skeleton-line w40"></div>
+      <div style="margin-top:16px">
+        <div class="skeleton skeleton-line"></div>
+        <div class="skeleton skeleton-line w80"></div>
       </div>
     </div>
   </div>
 
-  <!-- empty -->
-  <div id="emptyState" class="empty" hidden>
-    <strong>Product not found</strong>
-    <div>This product may have been removed.</div>
-    <a href="index.html">Go back to shop</a>
+  <!-- Product Card -->
+  <div id="productCard" class="product-card hidden">
+    <!-- Image Section -->
+    <div class="image-section">
+      <img id="pImage" class="main-image" src="" alt="">
+    </div>
+
+    <!-- Product Info Section -->
+    <div class="product-info">
+      <h1 id="pTitle"></h1>
+      
+      <div class="price-section">
+        <span class="price" id="pPrice"></span>
+        <span class="old-price" id="pOldPrice"></span>
+        <span class="discount-badge" id="discountBadge"></span>
+      </div>
+
+      <div class="category-badge" id="pCategory">
+        <i class='bx bx-category'></i>
+        <span></span>
+      </div>
+
+      <div class="stock-status" id="stockStatus">
+        <span class="in-stock">
+          <i class='bx bx-check-circle'></i> In Stock
+        </span>
+      </div>
+
+      <div class="description" id="pDescription">
+        <h3><i class='bx bx-info-circle'></i> Description</h3>
+        <p></p>
+      </div>
+
+      <!-- Quantity Selector -->
+      <div class="quantity-selector">
+        <label>Qty:</label>
+        <div class="quantity-controls">
+          <button class="qty-btn" id="decreaseQty" aria-label="Decrease quantity">−</button>
+          <span class="qty-value" id="quantity">1</span>
+          <button class="qty-btn" id="increaseQty" aria-label="Increase quantity">+</button>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button class="add-to-cart-btn" id="addToCartBtn">
+          <i class='bx bx-cart-add'></i>
+          Add
+        </button>
+        <button class="buy-now-btn" id="buyNowBtn">
+          Buy Now
+        </button>
+      </div>
+    </div>
   </div>
 
+  <!-- Empty State -->
+  <div id="emptyState" class="empty-state hidden">
+    <i class='bx bx-package'></i>
+    <h3>Product Not Found</h3>
+    <p>The product you're looking for doesn't exist or has been removed.</p>
+    <a href="index.html">Continue Shopping</a>
+  </div>
+
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast hidden">
+  <i class='bx bx-check-circle'></i>
+  <span class="toast-message" id="toastMessage">Item added</span>
+  <a href="cart.html" class="toast-view">View</a>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+// ========== FIREBASE CONFIG ==========
 const firebaseConfig = {
   apiKey: "AIzaSyBvoWHr8Ctnzogdu756BpmSjWtmA9l-rlE",
   authDomain: "cheedan.firebaseapp.com",
@@ -215,96 +663,244 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
+const db = getFirestore(app);
 
-const params = new URLSearchParams(location.search);
-const id = params.get("id");
-
+// ========== DOM ELEMENTS ==========
 const loader = document.getElementById("loader");
-const card   = document.getElementById("productCard");
-const empty  = document.getElementById("emptyState");
+const card = document.getElementById("productCard");
+const empty = document.getElementById("emptyState");
+const toast = document.getElementById("toast");
+const toastMessage = document.getElementById("toastMessage");
 
+// Product elements
 const pTitle = document.getElementById("pTitle");
 const pPrice = document.getElementById("pPrice");
+const pOldPrice = document.getElementById("pOldPrice");
 const pImage = document.getElementById("pImage");
-const pCat   = document.getElementById("pCategory");
-const addBtn = document.querySelector(".add-btn");
-const bcCat  = document.getElementById("bcCat");
+const pCat = document.querySelector("#pCategory span");
+const pDescription = document.querySelector("#pDescription p");
+const bcCat = document.getElementById("bcCat");
+const discountBadge = document.getElementById("discountBadge");
+const stockStatus = document.getElementById("stockStatus");
+const quantitySpan = document.getElementById("quantity");
 
-document.getElementById("goBack").onclick = () => history.back();
+// Buttons
+const goBack = document.getElementById("goBack");
+const addToCartBtn = document.getElementById("addToCartBtn");
+const buyNowBtn = document.getElementById("buyNowBtn");
+const decreaseQty = document.getElementById("decreaseQty");
+const increaseQty = document.getElementById("increaseQty");
 
-if(!id){
-  loader.style.display="none";
-  empty.hidden=false;
-}else{
-  loadProduct(id);
+// ========== STATE ==========
+let currentProduct = null;
+let currentQuantity = 1;
+
+// ========== TOAST FUNCTION ==========
+function showToast(message, type = "success") {
+  toastMessage.textContent = message;
+  
+  // Change icon based on type
+  const icon = toast.querySelector('i');
+  if (type === "success") {
+    icon.className = 'bx bx-check-circle';
+    icon.style.color = '#16a34a';
+    toast.style.borderLeftColor = '#16a34a';
+  } else if (type === "error") {
+    icon.className = 'bx bx-error-circle';
+    icon.style.color = '#dc2626';
+    toast.style.borderLeftColor = '#dc2626';
+  } else if (type === "warning") {
+    icon.className = 'bx bx-error';
+    icon.style.color = '#f59e0b';
+    toast.style.borderLeftColor = '#f59e0b';
+  }
+  
+  toast.classList.remove("hidden");
+  setTimeout(() => toast.classList.add("show"), 10);
+  
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.classList.add("hidden"), 300);
+  }, 2500);
 }
 
-async function loadProduct(pid){
+// ========== CART FUNCTIONS ==========
+function getCart() {
+  try {
+    return JSON.parse(localStorage.getItem("cart")) || [];
+  } catch {
+    return [];
+  }
+}
 
-  try{
+function saveCart(cart) {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
 
-    const ref  = doc(db,"products",pid);
+function addToCart(product, quantity = 1) {
+  if (!product) return;
+  
+  const cart = getCart();
+  const existing = cart.find(item => item.id === product.id);
+  
+  if (existing) {
+    existing.qty += quantity;
+  } else {
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      category: product.category,
+      qty: quantity
+    });
+  }
+  
+  saveCart(cart);
+  showToast(`${product.name} added!`);
+}
+
+// ========== UPDATE UI ==========
+function updateQuantityDisplay() {
+  quantitySpan.textContent = currentQuantity;
+  decreaseQty.disabled = currentQuantity <= 1;
+}
+
+// ========== LOAD PRODUCT ==========
+async function loadProduct(productId) {
+  try {
+    const ref = doc(db, "products", productId);
     const snap = await getDoc(ref);
 
-    loader.style.display="none";
+    loader.style.display = "none";
 
-    if(!snap.exists()){
-      empty.hidden=false;
+    if (!snap.exists()) {
+      empty.classList.remove("hidden");
       return;
     }
 
-    const p = snap.data();
+    const data = snap.data();
+    
+    // Structure the product data
+    currentProduct = {
+      id: productId,
+      name: data.title || data.name || "Untitled Product",
+      price: Number(data.price) || 0,
+      oldPrice: Number(data.oldPrice) || 0,
+      image: data.image || "https://images.unsplash.com/photo-1586201375761-83865001e31c",
+      category: data.category || "Uncategorized",
+      description: data.description || "No description available.",
+      stock: data.stock || 10
+    };
 
-    pTitle.textContent = p.title || p.name || "Untitled";
-    pPrice.textContent = "₦" + Number(p.price).toLocaleString();
-    pImage.src = p.image;
-    pImage.alt = p.title || "";
+    // Update UI
+    pTitle.textContent = currentProduct.name;
+    pPrice.textContent = "₦" + currentProduct.price.toLocaleString();
+    pImage.src = currentProduct.image;
+    pImage.alt = currentProduct.name;
+    pCat.textContent = currentProduct.category;
+    pDescription.textContent = currentProduct.description;
+    bcCat.textContent = currentProduct.category;
 
-    pCat.textContent = "Category: " + (p.category || "—");
-    bcCat.textContent = p.category || "Product";
+    // Handle old price and discount
+    if (currentProduct.oldPrice > currentProduct.price) {
+      pOldPrice.textContent = "₦" + currentProduct.oldPrice.toLocaleString();
+      const discount = Math.round((1 - currentProduct.price / currentProduct.oldPrice) * 100);
+      discountBadge.textContent = `-${discount}%`;
+      discountBadge.classList.remove("hidden");
+    } else {
+      pOldPrice.classList.add("hidden");
+      discountBadge.classList.add("hidden");
+    }
 
-    card.hidden=false;
+    // Stock status
+    if (currentProduct.stock > 0) {
+      stockStatus.innerHTML = `
+        <span class="in-stock">
+          <i class='bx bx-check-circle'></i> In Stock (${currentProduct.stock})
+        </span>
+      `;
+      addToCartBtn.disabled = false;
+      buyNowBtn.disabled = false;
+    } else {
+      stockStatus.innerHTML = `
+        <span class="out-of-stock">
+          <i class='bx bx-x-circle'></i> Out of Stock
+        </span>
+      `;
+      addToCartBtn.disabled = true;
+      buyNowBtn.disabled = true;
+    }
 
-    addBtn.dataset.id = pid;
-addBtn.dataset.name = p.title || p.name || "";
-addBtn.dataset.price = p.price || 0;
-addBtn.dataset.image = p.image || "";
+    card.classList.remove("hidden");
+    updateQuantityDisplay();
 
-  }catch(err){
-    console.error(err);
-    loader.style.display="none";
-    empty.hidden=false;
+  } catch (err) {
+    console.error("Error loading product:", err);
+    loader.style.display = "none";
+    empty.classList.remove("hidden");
   }
-
 }
 
+// ========== EVENT LISTENERS ==========
 
+// Back button
+goBack.addEventListener("click", () => history.back());
 
-
-addBtn.addEventListener("click", () => {
-
-  const item = {
-    id: addBtn.dataset.id,
-    name: addBtn.dataset.name,
-    price: Number(addBtn.dataset.price),
-    image: addBtn.dataset.image,
-    qty: 1
-  };
-
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  const existing = cart.find(p => p.id === item.id);
-
-  if(existing){
-    existing.qty += 1;
-  }else{
-    cart.push(item);
+// Quantity controls
+decreaseQty.addEventListener("click", () => {
+  if (currentQuantity > 1) {
+    currentQuantity--;
+    updateQuantityDisplay();
   }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-
 });
+
+increaseQty.addEventListener("click", () => {
+  if (currentProduct && currentQuantity < currentProduct.stock) {
+    currentQuantity++;
+    updateQuantityDisplay();
+  } else {
+    showToast("Max stock reached", "warning");
+  }
+});
+
+// Add to cart
+addToCartBtn.addEventListener("click", () => {
+  if (!currentProduct) return;
+  
+  if (currentProduct.stock < currentQuantity) {
+    showToast("Not enough stock", "error");
+    return;
+  }
+  
+  addToCart(currentProduct, currentQuantity);
+  currentQuantity = 1;
+  updateQuantityDisplay();
+});
+
+// Buy now
+buyNowBtn.addEventListener("click", () => {
+  if (!currentProduct) return;
+  
+  if (currentProduct.stock < currentQuantity) {
+    showToast("Not enough stock", "error");
+    return;
+  }
+  
+  addToCart(currentProduct, currentQuantity);
+  window.location.href = "checkout.html";
+});
+
+// ========== INITIALIZE ==========
+const params = new URLSearchParams(location.search);
+const productId = params.get("id");
+
+if (!productId) {
+  loader.style.display = "none";
+  empty.classList.remove("hidden");
+} else {
+  loadProduct(productId);
+}
 </script>
 
 </body>
