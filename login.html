@@ -188,67 +188,6 @@ h2{
   font-size:20px;
 }
 
-/* Demo Credentials */
-.demo-box{
-  background:#f8fafc;
-  border:1px dashed #16a34a;
-  border-radius:14px;
-  padding:16px;
-  margin-bottom:20px;
-}
-
-.demo-box p{
-  font-size:13px;
-  color:#475569;
-  margin-bottom:8px;
-  display:flex;
-  align-items:center;
-  gap:6px;
-}
-
-.demo-box p i{
-  color:#16a34a;
-  font-size:16px;
-}
-
-.demo-item{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-size:12px;
-  color:#64748b;
-  margin-bottom:6px;
-}
-
-.demo-item i{
-  color:#16a34a;
-  font-size:14px;
-}
-
-.demo-item span{
-  font-weight:600;
-  color:#0f172a;
-}
-
-.demo-use-btn{
-  width:100%;
-  padding:8px;
-  margin-top:8px;
-  border:1px solid #16a34a;
-  border-radius:999px;
-  background:#fff;
-  color:#16a34a;
-  font-size:12px;
-  font-weight:600;
-  cursor:pointer;
-  transition:all 0.2s;
-}
-
-.demo-use-btn:hover{
-  background:#16a34a;
-  color:#fff;
-}
-
 /* Error Message */
 .error-message{
   background:#fee2e2;
@@ -350,22 +289,6 @@ h2{
     <span>Login successful! Redirecting...</span>
   </div>
 
-  <!-- Demo Credentials Box -->
-  <!-- <div class="demo-box" id="demoBox">
-    <p><i class='bx bx-info-circle'></i> Demo Credentials</p>
-    <div class="demo-item">
-      <i class='bx bx-envelope'></i>
-      <span>Email:</span> demo@cheedan.com
-    </div>
-    <div class="demo-item">
-      <i class='bx bx-lock-alt'></i>
-      <span>Password:</span> Demo@123
-    </div>
-    <button class="demo-use-btn" id="useDemoBtn">
-      <i class='bx bx-copy'></i> Use Demo Account
-    </button>
-  </div> -->
-
   <!-- Login Form -->
   <div class="input-group">
     <label>Email Address</label>
@@ -438,32 +361,12 @@ h2{
   const errorMessage = document.getElementById('errorMessage');
   const errorText = document.getElementById('errorText');
   const successMessage = document.getElementById('successMessage');
-  const useDemoBtn = document.getElementById('useDemoBtn');
-  const demoBox = document.getElementById('demoBox');
 
   // Toggle password visibility
   togglePassword.addEventListener('click', () => {
     const type = passwordInput.type === 'password' ? 'text' : 'password';
     passwordInput.type = type;
     togglePassword.className = type === 'password' ? 'bx bx-show toggle-password' : 'bx bx-hide toggle-password';
-  });
-
-  // Use demo credentials
-  useDemoBtn.addEventListener('click', () => {
-    emailInput.value = 'demo@cheedan.com';
-    passwordInput.value = 'Demo@123';
-    
-    // Highlight the fields briefly
-    emailInput.style.transition = 'background 0.3s';
-    passwordInput.style.transition = 'background 0.3s';
-    
-    emailInput.style.background = '#dcfce7';
-    passwordInput.style.background = '#dcfce7';
-    
-    setTimeout(() => {
-      emailInput.style.background = '#fff';
-      passwordInput.style.background = '#fff';
-    }, 500);
   });
 
   // Show error function
@@ -580,7 +483,10 @@ h2{
       const infoMsg = document.createElement('div');
       infoMsg.className = 'success-message';
       infoMsg.innerHTML = '<i class="bx bx-envelope"></i><span>Please verify your email before logging in</span>';
-      demoBox.parentNode.insertBefore(infoMsg, demoBox);
+      
+      // Insert at the top of the container
+      const container = document.querySelector('.container');
+      container.insertBefore(infoMsg, container.firstChild);
       
       setTimeout(() => infoMsg.remove(), 5000);
     }
