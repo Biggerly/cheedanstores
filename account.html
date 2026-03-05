@@ -124,6 +124,12 @@ body{
   cursor:pointer;
   font-size:14px;
   color:#0f172a;
+  transition:all 0.2s;
+}
+
+.menu-item:hover{
+  border-color:#16a34a;
+  background:#fff;
 }
 
 .menu-item i{
@@ -133,6 +139,10 @@ body{
 
 .menu-item.danger i{
   color:#dc2626;
+}
+
+.menu-item.danger:hover{
+  border-color:#dc2626;
 }
 
 .auth-box{
@@ -146,6 +156,7 @@ body{
   border:none;
   cursor:pointer;
   font-weight:600;
+  transition:all 0.2s;
 }
 
 .login-btn{
@@ -153,75 +164,182 @@ body{
   color:#fff;
 }
 
+.login-btn:hover{
+  background:#15803d;
+  transform:translateY(-2px);
+}
+
 .signup-btn{
   background:#e5e7eb;
 }
 
+.signup-btn:hover{
+  background:#d1d5db;
+  transform:translateY(-2px);
+}
+
 .hidden{display:none;}
 
-/* Orders section */
-.orders-section{
-  margin-top:24px;
+/* Custom Alert Modal */
+.custom-alert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
 }
 
-.order-card{
-  background:#fff;
-  border:1px solid #e5e7eb;
-  border-radius:14px;
-  padding:14px;
-  margin-bottom:14px;
+.custom-alert.show {
+  opacity: 1;
+  visibility: visible;
 }
 
-.order-head{
-  display:flex;
-  justify-content:space-between;
-  font-size:13px;
-  color:#475569;
-  margin-bottom:10px;
+.alert-box {
+  background: #fff;
+  border-radius: 24px;
+  padding: 32px;
+  max-width: 380px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+  border: 1px solid rgba(22, 163, 74, 0.2);
 }
 
-.order-items{
-  display:grid;
-  gap:10px;
+.custom-alert.show .alert-box {
+  transform: scale(1);
 }
 
-.item{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  font-size:14px;
+.alert-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f0fdf4;
 }
 
-.item img{
-  width:44px;
-  height:44px;
-  border-radius:8px;
-  object-fit:cover;
+.alert-icon i {
+  font-size: 48px;
+  color: #16a34a;
 }
 
-.total{
-  margin-top:10px;
-  font-size:14px;
-  font-weight:700;
-  color:#16a34a;
+.alert-icon.warning {
+  background: #fef3c7;
 }
 
-.address{
-  margin-top:8px;
-  font-size:13px;
-  color:#475569;
+.alert-icon.warning i {
+  color: #f59e0b;
 }
 
-.empty{
-  text-align:center;
-  padding:60px 10px;
-  color:#64748b;
+.alert-icon.error {
+  background: #fee2e2;
 }
 
-.empty a{
-  color:#16a34a;
-  text-decoration:none;
-  font-weight:600;
+.alert-icon.error i {
+  color: #dc2626;
+}
+
+.alert-icon.info {
+  background: #dbeafe;
+}
+
+.alert-icon.info i {
+  color: #3b82f6;
+}
+
+.alert-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #022c22;
+  margin-bottom: 8px;
+}
+
+.alert-message {
+  font-size: 15px;
+  color: #475569;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.alert-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.alert-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.alert-btn-primary {
+  background: #16a34a;
+  color: #fff;
+}
+
+.alert-btn-primary:hover {
+  background: #15803d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+.alert-btn-secondary {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.alert-btn-secondary:hover {
+  background: #e2e8f0;
+  transform: translateY(-2px);
+}
+
+.alert-btn-danger {
+  background: #dc2626;
+  color: #fff;
+}
+
+.alert-btn-danger:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+/* Loading Spinner */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e5e7eb;
+  border-top: 4px solid #16a34a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+@keyframes spin { 
+  0% { transform: rotate(0deg); } 
+  100% { transform: rotate(360deg); } 
 }
 
 body{
@@ -266,10 +384,12 @@ body{
 
       <div class="menu-list">
 
-        <div class="menu-item" id="goOrders" tabindex="0" aria-label="My orders">
-          <span><i class='bx bx-receipt'></i> My Orders</span>
-          <i class='bx bx-chevron-right'></i>
-        </div>
+        <a href="orders.html" style="text-decoration:none; color:inherit;">
+          <div class="menu-item" tabindex="0" aria-label="My orders">
+            <span><i class='bx bx-receipt'></i> My Orders</span>
+            <i class='bx bx-chevron-right'></i>
+          </div>
+        </a>
 
         <div class="menu-item" id="goProfile" tabindex="0" aria-label="Profile">
           <span><i class='bx bx-id-card'></i> Profile</span>
@@ -301,17 +421,27 @@ body{
 
   </div>
 
-  <!-- Orders section -->
-  <div class="orders-section hidden" id="ordersSection">
-    <h2>My Orders</h2>
-    <div id="ordersList"></div>
-    <div id="emptyState" class="empty" hidden>
-      You have no orders yet.<br><br>
-      <a href="index.html">Start shopping</a>
+</main>
+
+<!-- Loading Spinner -->
+<div id="loadingSpinner" class="hidden" style="text-align:center; padding:40px;">
+  <div class="spinner"></div>
+</div>
+
+<!-- Custom Alert Modal -->
+<div id="customAlert" class="custom-alert">
+  <div class="alert-box">
+    <div class="alert-icon" id="alertIcon">
+      <i class='bx bx-log-out'></i>
+    </div>
+    <h3 class="alert-title" id="alertTitle">Logout</h3>
+    <p class="alert-message" id="alertMessage">Are you sure you want to log out?</p>
+    <div class="alert-buttons" id="alertButtons">
+      <button class="alert-btn alert-btn-secondary" id="alertCancelBtn">Cancel</button>
+      <button class="alert-btn alert-btn-danger" id="alertConfirmBtn">Logout</button>
     </div>
   </div>
-
-</main>
+</div>
 
 <!-- Firebase -->
 <script type="module">
@@ -321,14 +451,6 @@ import {
   onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import {
-  getFirestore,
-  collection,
-  query,
-  where,
-  getDocs,
-  orderBy
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // Firebase config
 const firebaseConfig = {
@@ -343,114 +465,180 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
 
-const signedInBox  = document.getElementById("signedInBox");
+const signedInBox = document.getElementById("signedInBox");
 const signedOutBox = document.getElementById("signedOutBox");
-
-const userName  = document.getElementById("userName");
+const userName = document.getElementById("userName");
 const userEmail = document.getElementById("userEmail");
+const loadingSpinner = document.getElementById("loadingSpinner");
 
-const ordersSection = document.getElementById("ordersSection");
-const ordersList = document.getElementById("ordersList");
-const emptyState = document.getElementById("emptyState");
+// Custom Alert elements
+const customAlert = document.getElementById("customAlert");
+const alertIcon = document.getElementById("alertIcon");
+const alertTitle = document.getElementById("alertTitle");
+const alertMessage = document.getElementById("alertMessage");
+const alertButtons = document.getElementById("alertButtons");
+const alertCancelBtn = document.getElementById("alertCancelBtn");
+const alertConfirmBtn = document.getElementById("alertConfirmBtn");
 
+// ===== CUSTOM ALERT FUNCTIONS =====
+function showAlert({
+  title = "Notification",
+  message = "",
+  icon = "info-circle",
+  iconType = "info",
+  showCancel = true,
+  confirmText = "OK",
+  cancelText = "Cancel",
+  onConfirm = null,
+  onCancel = null
+}) {
+  // Set icon
+  alertIcon.innerHTML = `<i class='bx bx-${icon}'></i>`;
+  alertIcon.className = 'alert-icon';
+  
+  if (iconType === 'warning') {
+    alertIcon.classList.add('warning');
+  } else if (iconType === 'error') {
+    alertIcon.classList.add('error');
+  } else if (iconType === 'info') {
+    alertIcon.classList.add('info');
+  }
+
+  // Set content
+  alertTitle.textContent = title;
+  alertMessage.textContent = message;
+
+  // Set buttons
+  if (showCancel) {
+    alertButtons.innerHTML = `
+      <button class="alert-btn alert-btn-secondary" id="alertCancelBtn">${cancelText}</button>
+      <button class="alert-btn ${iconType === 'danger' ? 'alert-btn-danger' : 'alert-btn-primary'}" id="alertConfirmBtn">${confirmText}</button>
+    `;
+  } else {
+    alertButtons.innerHTML = `
+      <button class="alert-btn alert-btn-primary" id="alertConfirmBtn" style="flex:1;">${confirmText}</button>
+    `;
+  }
+
+  // Add event listeners
+  const newCancelBtn = document.getElementById("alertCancelBtn");
+  const newConfirmBtn = document.getElementById("alertConfirmBtn");
+
+  if (newCancelBtn) {
+    newCancelBtn.addEventListener('click', () => {
+      hideAlert();
+      if (onCancel) onCancel();
+    });
+  }
+
+  newConfirmBtn.addEventListener('click', () => {
+    hideAlert();
+    if (onConfirm) onConfirm();
+  });
+
+  // Show modal
+  customAlert.classList.add('show');
+}
+
+function hideAlert() {
+  customAlert.classList.remove('show');
+}
+
+// ===== AUTH STATE =====
 onAuthStateChanged(auth, async user => {
-  if(user){
+  loadingSpinner.classList.add("hidden");
+  
+  if (user) {
     signedOutBox.classList.add("hidden");
     signedInBox.classList.remove("hidden");
 
     userName.textContent = user.displayName || "Cheedan customer";
     userEmail.textContent = user.email || "";
-
-    // Show orders section
-    ordersSection.classList.remove("hidden");
-
-    // Fetch orders
-    const q = query(
-      collection(db, "orders"),
-      where("userId", "==", user.uid),
-      orderBy("createdAt","desc")
-    );
-    const snapshot = await getDocs(q);
-    const orders = snapshot.docs.map(doc => doc.data());
-    renderOrders(orders);
-
-  }else{
+  } else {
     signedInBox.classList.add("hidden");
     signedOutBox.classList.remove("hidden");
-    ordersSection.classList.add("hidden");
   }
 });
 
-document.getElementById("loginBtn")?.addEventListener("click",()=>{ window.location.href = "login.html"; });
-document.getElementById("signupBtn")?.addEventListener("click",()=>{ window.location.href = "signup.html"; });
-document.getElementById("goOrders")?.addEventListener("click",()=>{ ordersSection.scrollIntoView({behavior:"smooth"}); });
-document.getElementById("goProfile")?.addEventListener("click",()=>{ window.location.href = "profile.html"; });
-document.getElementById("goSupport")?.addEventListener("click",()=>{ window.location.href = "support.html"; });
-document.getElementById("logoutBtn")?.addEventListener("click", async ()=>{
-  await signOut(auth);
-  location.reload();
+// ===== BUTTON HANDLERS =====
+document.getElementById("loginBtn")?.addEventListener("click", () => {
+  window.location.href = "login.html";
 });
 
-// Render orders
-function renderOrders(orders){
-  ordersList.innerHTML = "";
+document.getElementById("signupBtn")?.addEventListener("click", () => {
+  window.location.href = "signup.html";
+});
 
-  // Ensure orders is an array
-  if(!orders || !orders.length){
-    emptyState.hidden = false;
-    return;
-  }
-
-  emptyState.hidden = true;
-
-  orders.forEach(order => {
-    const card = document.createElement("div");
-    card.className = "order-card";
-
-    let itemsHTML = "";
-    let total = 0;
-
-    // Check if order.items exists and is array
-    if(order.items && order.items.length){
-      order.items.forEach(i => {
-        total += i.price * i.qty;
-        itemsHTML += `
-          <div class="item">
-            <img src="${i.image}">
-            <div>
-              ${i.name}<br>
-              <small>₦${i.price.toLocaleString()} × ${i.qty}</small>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    const date = order.createdAt?.toDate ? order.createdAt.toDate() : new Date(order.createdAt || Date.now());
-
-    card.innerHTML = `
-      <div class="order-head">
-        <span>Order</span>
-        <span>${date.toLocaleDateString()} ${date.toLocaleTimeString()}</span>
-      </div>
-
-      <div class="order-items">${itemsHTML || "<small>No items</small>"}</div>
-
-      <div class="total">Total: ₦${total.toLocaleString()}</div>
-
-      <div class="address">
-        <strong>Delivery</strong><br>
-        ${order.customer?.name || ""} – ${order.customer?.phone || ""}<br>
-        ${order.customer?.area || ""} ${order.customer?.city || ""}<br>
-        ${order.customer?.address || ""}
-      </div>
-    `;
-
-    ordersList.appendChild(card);
+document.getElementById("goProfile")?.addEventListener("click", () => {
+  showAlert({
+    title: "Coming Soon",
+    message: "Profile page is under construction. Check back soon!",
+    icon: "time",
+    iconType: "info",
+    showCancel: false,
+    confirmText: "Got it"
   });
-}
+});
+
+document.getElementById("goSupport")?.addEventListener("click", () => {
+  window.location.href = "support.html";
+});
+
+// ===== LOGOUT WITH CUSTOM ALERT =====
+document.getElementById("logoutBtn")?.addEventListener("click", async (e) => {
+  e.preventDefault();
+  
+  showAlert({
+    title: "Logout",
+    message: "Are you sure you want to log out?",
+    icon: "log-out",
+    iconType: "warning",
+    showCancel: true,
+    confirmText: "Logout",
+    cancelText: "Cancel",
+    onConfirm: async () => {
+      // Show loading spinner
+      loadingSpinner.classList.remove("hidden");
+      
+      try {
+        await signOut(auth);
+        
+        showAlert({
+          title: "Logged Out",
+          message: "You have been successfully logged out.",
+          icon: "check-circle",
+          iconType: "success",
+          showCancel: false,
+          confirmText: "OK",
+          onConfirm: () => {
+            window.location.href = "index.html";
+          }
+        });
+      } catch (error) {
+        loadingSpinner.classList.add("hidden");
+        showAlert({
+          title: "Error",
+          message: "Failed to log out. Please try again.",
+          icon: "error-circle",
+          iconType: "error",
+          showCancel: false,
+          confirmText: "OK"
+        });
+      }
+    }
+  });
+});
+
+// Click outside to close (optional - only for non-confirmation alerts)
+customAlert.addEventListener('click', (e) => {
+  if (e.target === customAlert) {
+    // Only close if it's an info alert without confirmation
+    if (!alertButtons.innerHTML.includes('alert-btn-danger')) {
+      hideAlert();
+    }
+  }
+});
 </script>
 
 </body>
