@@ -4,11 +4,416 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login - Cheedan Stores</title>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 
-<!-- Firebase v10 (modular) -->
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+}
+
+.container{
+  background:#fff;
+  padding:32px;
+  border-radius:24px;
+  box-shadow:0 20px 40px -10px rgba(0,0,0,0.15);
+  width:100%;
+  max-width:420px;
+  border:1px solid rgba(22,163,74,0.1);
+}
+
+.logo{
+  text-align:center;
+  margin-bottom:24px;
+}
+
+.logo i{
+  font-size:48px;
+  color:#16a34a;
+  background:#dcfce7;
+  padding:12px;
+  border-radius:50%;
+}
+
+h2{
+  color:#022c22;
+  font-size:28px;
+  font-weight:700;
+  margin-bottom:8px;
+  text-align:center;
+}
+
+.subtitle{
+  color:#64748b;
+  font-size:14px;
+  text-align:center;
+  margin-bottom:24px;
+}
+
+/* Input Groups */
+.input-group{
+  margin-bottom:16px;
+  position:relative;
+}
+
+.input-group label{
+  display:block;
+  font-size:13px;
+  color:#475569;
+  margin-bottom:6px;
+  font-weight:500;
+}
+
+.input-wrapper{
+  position:relative;
+  display:flex;
+  align-items:center;
+}
+
+.input-wrapper i{
+  position:absolute;
+  left:14px;
+  color:#94a3b8;
+  font-size:18px;
+}
+
+.input-wrapper input{
+  width:100%;
+  padding:14px 14px 14px 45px;
+  border:2px solid #e5e7eb;
+  border-radius:14px;
+  font-size:15px;
+  outline:none;
+  transition:all 0.2s;
+  background:#fff;
+}
+
+.input-wrapper input:focus{
+  border-color:#16a34a;
+  box-shadow:0 0 0 4px rgba(22,163,74,0.1);
+}
+
+.input-wrapper input.error{
+  border-color:#dc2626;
+}
+
+.toggle-password{
+  position:absolute;
+  right:14px;
+  color:#94a3b8;
+  cursor:pointer;
+  font-size:20px;
+}
+
+.toggle-password:hover{
+  color:#16a34a;
+}
+
+/* Remember Me & Forgot Password */
+.actions{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:16px 0 20px;
+}
+
+.remember{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.remember input[type="checkbox"]{
+  width:16px;
+  height:16px;
+  cursor:pointer;
+  accent-color:#16a34a;
+}
+
+.remember label{
+  font-size:13px;
+  color:#475569;
+  cursor:pointer;
+}
+
+.forgot-link{
+  font-size:13px;
+  color:#16a34a;
+  text-decoration:none;
+  font-weight:500;
+}
+
+.forgot-link:hover{
+  text-decoration:underline;
+}
+
+/* Button */
+.login-btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  background:#16a34a;
+  color:#fff;
+  font-weight:600;
+  font-size:16px;
+  cursor:pointer;
+  transition:all 0.2s;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-bottom:16px;
+}
+
+.login-btn:hover:not(:disabled){
+  background:#15803d;
+  transform:translateY(-2px);
+  box-shadow:0 8px 16px rgba(22,163,74,0.2);
+}
+
+.login-btn:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
+}
+
+.login-btn i{
+  font-size:20px;
+}
+
+/* Demo Credentials */
+.demo-box{
+  background:#f8fafc;
+  border:1px dashed #16a34a;
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:20px;
+}
+
+.demo-box p{
+  font-size:13px;
+  color:#475569;
+  margin-bottom:8px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.demo-box p i{
+  color:#16a34a;
+  font-size:16px;
+}
+
+.demo-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  color:#64748b;
+  margin-bottom:6px;
+}
+
+.demo-item i{
+  color:#16a34a;
+  font-size:14px;
+}
+
+.demo-item span{
+  font-weight:600;
+  color:#0f172a;
+}
+
+.demo-use-btn{
+  width:100%;
+  padding:8px;
+  margin-top:8px;
+  border:1px solid #16a34a;
+  border-radius:999px;
+  background:#fff;
+  color:#16a34a;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+
+.demo-use-btn:hover{
+  background:#16a34a;
+  color:#fff;
+}
+
+/* Error Message */
+.error-message{
+  background:#fee2e2;
+  border:1px solid #fecaca;
+  color:#dc2626;
+  padding:12px;
+  border-radius:12px;
+  font-size:13px;
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.error-message i{
+  font-size:18px;
+}
+
+/* Success Message */
+.success-message{
+  background:#dcfce7;
+  border:1px solid #bbf7d0;
+  color:#166534;
+  padding:12px;
+  border-radius:12px;
+  font-size:13px;
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.success-message i{
+  font-size:18px;
+}
+
+.hidden{
+  display:none;
+}
+
+/* Loading Spinner */
+.spinner{
+  width:20px;
+  height:20px;
+  border:3px solid rgba(255,255,255,0.3);
+  border-radius:50%;
+  border-top-color:#fff;
+  animation:spin 0.8s linear infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+/* Footer */
+.footer{
+  text-align:center;
+  margin-top:16px;
+  font-size:14px;
+  color:#64748b;
+}
+
+.footer a{
+  color:#16a34a;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.footer a:hover{
+  text-decoration:underline;
+}
+
+/* Responsive */
+@media(max-width:480px){
+  .container{padding:24px;}
+  h2{font-size:24px;}
+  .actions{flex-direction:column;gap:12px;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="logo">
+    <i class='bx bx-log-in-circle'></i>
+  </div>
+  
+  <h2>Welcome Back</h2>
+  <p class="subtitle">Sign in to your Cheedan account</p>
+
+  <!-- Error/Success Messages -->
+  <div id="errorMessage" class="error-message hidden">
+    <i class='bx bx-error-circle'></i>
+    <span id="errorText"></span>
+  </div>
+
+  <div id="successMessage" class="success-message hidden">
+    <i class='bx bx-check-circle'></i>
+    <span>Login successful! Redirecting...</span>
+  </div>
+
+  <!-- Demo Credentials Box -->
+  <!-- <div class="demo-box" id="demoBox">
+    <p><i class='bx bx-info-circle'></i> Demo Credentials</p>
+    <div class="demo-item">
+      <i class='bx bx-envelope'></i>
+      <span>Email:</span> demo@cheedan.com
+    </div>
+    <div class="demo-item">
+      <i class='bx bx-lock-alt'></i>
+      <span>Password:</span> Demo@123
+    </div>
+    <button class="demo-use-btn" id="useDemoBtn">
+      <i class='bx bx-copy'></i> Use Demo Account
+    </button>
+  </div> -->
+
+  <!-- Login Form -->
+  <div class="input-group">
+    <label>Email Address</label>
+    <div class="input-wrapper">
+      <i class='bx bx-envelope'></i>
+      <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label>Password</label>
+    <div class="input-wrapper">
+      <i class='bx bx-lock-alt'></i>
+      <input type="password" id="password" placeholder="Enter your password">
+      <i class='bx bx-show toggle-password' id="togglePassword"></i>
+    </div>
+  </div>
+
+  <!-- Remember Me & Forgot Password -->
+  <div class="actions">
+    <div class="remember">
+      <input type="checkbox" id="remember">
+      <label for="remember">Remember me</label>
+    </div>
+    <a href="forgot-password.html" class="forgot-link">Forgot password?</a>
+  </div>
+
+  <!-- Login Button -->
+  <button class="login-btn" id="loginBtn">
+    <span>Sign In</span>
+    <i class='bx bx-right-arrow-alt'></i>
+  </button>
+
+  <!-- Sign Up Link -->
+  <div class="footer">
+    Don't have an account? <a href="signup.html">Create Account</a>
+  </div>
+</div>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+  import { 
+    getAuth, 
+    signInWithEmailAndPassword,
+    setPersistence,
+    browserLocalPersistence,
+    browserSessionPersistence
+  } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBvoWHr8Ctnzogdu756BpmSjWtmA9l-rlE",
@@ -24,59 +429,163 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  window.addEventListener("DOMContentLoaded", () => {
-    const loginBtn = document.getElementById("loginBtn");
-    const errorDiv = document.getElementById("error");
+  // DOM Elements
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const loginBtn = document.getElementById('loginBtn');
+  const rememberCheck = document.getElementById('remember');
+  const togglePassword = document.getElementById('togglePassword');
+  const errorMessage = document.getElementById('errorMessage');
+  const errorText = document.getElementById('errorText');
+  const successMessage = document.getElementById('successMessage');
+  const useDemoBtn = document.getElementById('useDemoBtn');
+  const demoBox = document.getElementById('demoBox');
 
-    loginBtn.addEventListener("click", async () => {
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
-      errorDiv.textContent = "";
+  // Toggle password visibility
+  togglePassword.addEventListener('click', () => {
+    const type = passwordInput.type === 'password' ? 'text' : 'password';
+    passwordInput.type = type;
+    togglePassword.className = type === 'password' ? 'bx bx-show toggle-password' : 'bx bx-hide toggle-password';
+  });
 
-      if (!email || !password) {
-        errorDiv.textContent = "Please fill in all fields";
-        return;
+  // Use demo credentials
+  useDemoBtn.addEventListener('click', () => {
+    emailInput.value = 'demo@cheedan.com';
+    passwordInput.value = 'Demo@123';
+    
+    // Highlight the fields briefly
+    emailInput.style.transition = 'background 0.3s';
+    passwordInput.style.transition = 'background 0.3s';
+    
+    emailInput.style.background = '#dcfce7';
+    passwordInput.style.background = '#dcfce7';
+    
+    setTimeout(() => {
+      emailInput.style.background = '#fff';
+      passwordInput.style.background = '#fff';
+    }, 500);
+  });
+
+  // Show error function
+  function showError(message) {
+    errorText.textContent = message;
+    errorMessage.classList.remove('hidden');
+    successMessage.classList.add('hidden');
+    
+    // Auto hide after 5 seconds
+    setTimeout(() => {
+      errorMessage.classList.add('hidden');
+    }, 5000);
+  }
+
+  // Show success function
+  function showSuccess() {
+    successMessage.classList.remove('hidden');
+    errorMessage.classList.add('hidden');
+  }
+
+  // Validate form
+  function validateForm() {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    if (!email || !password) {
+      showError('Please fill in all fields');
+      return false;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      showError('Please enter a valid email address');
+      return false;
+    }
+
+    return true;
+  }
+
+  // Login handler
+  loginBtn.addEventListener('click', async () => {
+    if (!validateForm()) return;
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    // Set persistence based on "Remember me" checkbox
+    try {
+      if (rememberCheck.checked) {
+        await setPersistence(auth, browserLocalPersistence);
+      } else {
+        await setPersistence(auth, browserSessionPersistence);
       }
+    } catch (err) {
+      console.error('Persistence error:', err);
+    }
 
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        alert("Login successful!");
-        window.location.href = "index.html"; // redirect after login
-      } catch (err) {
-        errorDiv.textContent = err.message;
+    // Disable button and show loading
+    loginBtn.disabled = true;
+    loginBtn.innerHTML = '<span class="spinner"></span> Signing in...';
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      
+      showSuccess();
+      
+      // Check if email is verified
+      if (!userCredential.user.emailVerified) {
+        // Optional: Show warning but still login
+        console.log('Email not verified');
       }
-    });
+      
+      // Redirect after 1.5 seconds
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1500);
+      
+    } catch (err) {
+      console.error('Login error:', err);
+      
+      // Handle specific error messages
+      let message = 'Invalid email or password';
+      if (err.code === 'auth/user-not-found') {
+        message = 'No account found with this email';
+      } else if (err.code === 'auth/wrong-password') {
+        message = 'Incorrect password';
+      } else if (err.code === 'auth/too-many-requests') {
+        message = 'Too many failed attempts. Try again later';
+      } else if (err.code === 'auth/user-disabled') {
+        message = 'This account has been disabled';
+      }
+      
+      showError(message);
+      
+      // Re-enable button
+      loginBtn.disabled = false;
+      loginBtn.innerHTML = '<span>Sign In</span><i class="bx bx-right-arrow-alt"></i>';
+    }
+  });
+
+  // Enter key support
+  passwordInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') loginBtn.click();
+  });
+
+  emailInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') passwordInput.focus();
+  });
+
+  // Check for redirect from signup
+  window.addEventListener('load', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('verified') === 'false') {
+      // Show message about email verification
+      const infoMsg = document.createElement('div');
+      infoMsg.className = 'success-message';
+      infoMsg.innerHTML = '<i class="bx bx-envelope"></i><span>Please verify your email before logging in</span>';
+      demoBox.parentNode.insertBefore(infoMsg, demoBox);
+      
+      setTimeout(() => infoMsg.remove(), 5000);
+    }
   });
 </script>
-
-<style>
-body{font-family:system-ui,sans-serif;background:#f8fafc;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}
-.container{background:#fff;padding:28px 32px;border-radius:16px;box-shadow:0 8px 18px rgba(0,0,0,0.1);width:100%;max-width:400px}
-h2{text-align:center;color:#022c22;margin-bottom:20px}
-input{width:100%;padding:12px 14px;margin-bottom:14px;border-radius:10px;border:1px solid #e5e7eb;font-size:14px;outline:none}
-button{width:100%;padding:12px;border:none;border-radius:10px;background:#16a34a;color:#fff;font-weight:600;font-size:16px;cursor:pointer}
-button:hover{background:#15803d}
-p{text-align:center;margin-top:12px;font-size:14px}
-a{color:#16a34a;text-decoration:none}
-#error{color:red;font-size:13px;margin-bottom:10px;text-align:center}
-
-body{
-  background:
-    linear-gradient(0deg, rgba(0,0,0,0.015), rgba(0,0,0,0.015)),
-    #faf9f6;
-}
-</style>
-</head>
-<body>
-
-<div class="container">
-  <h2>Login</h2>
-  <div id="error"></div>
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Password">
-  <button id="loginBtn">Login</button>
-  <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
-</div>
 
 </body>
 </html>
