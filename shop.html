@@ -848,6 +848,17 @@
 @media (min-width: 1200px) {
   .products-grid { grid-template-columns: repeat(4,1fr); }
 }
+
+        .logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 40px;      /* controls logo size */
+  width: auto;       /* keeps rectangle shape */
+  object-fit: contain;
+}
   </style>
 </head>
 <body>
@@ -857,13 +868,15 @@
   <header class="header">
     <div class="header-inner">
       <button class="hamburger" id="openMenu"><i class='bx bx-menu'></i></button>
-      <div class="logo">Cheedan Stores</div>
+      <a href="/" class="logo">
+  <img src="cheedanlogo.png" alt="Cheedan Store" class="logo-img">
+</a>
 
       <!-- DESKTOP NAVIGATION (visible ≥900px) -->
       <nav class="desktop-nav">
-        <a href="#">Home</a>
-        <a href="#">Shop</a>
-        <a href="#">About</a>
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="about.html">About</a>
       </nav>
 
       <!-- DYNAMIC HEADER ACTIONS (filled via JS) -->
