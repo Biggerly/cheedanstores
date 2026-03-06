@@ -498,6 +498,18 @@
 .footer-bottom {
   background-image: radial-gradient(circle at 50% 0%, rgba(22, 163, 74, 0.05) 0%, transparent 50%);
 }
+
+      .logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 40px;      /* controls logo size */
+  width: auto;       /* keeps rectangle shape */
+  object-fit: contain;
+}
+    
   </style>
 </head>
 <body>
@@ -507,7 +519,9 @@
   <header class="header">
     <div class="header-inner">
       <button class="hamburger" id="openMenu"><i class='bx bx-menu'></i></button>
-      <div class="logo">Cheedan Stores</div>
+      <a href="/" class="logo">
+  <img src="cheedanlogo.png" alt="Cheedan Store" class="logo-img">
+</a>
 
       <!-- DESKTOP NAVIGATION -->
       <nav class="desktop-nav">
